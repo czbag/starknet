@@ -1,0 +1,406 @@
+[
+  {
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "low",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "high",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "data": [
+      {
+        "name": "implementation",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "previousAdmin",
+        "type": "felt"
+      },
+      {
+        "name": "newAdmin",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "AdminChanged",
+    "type": "event"
+  },
+  {
+    "name": "initializer",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "factory",
+        "type": "felt"
+      },
+      {
+        "name": "proxy_admin",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "factory",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "sort_tokens",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "tokenA",
+        "type": "felt"
+      },
+      {
+        "name": "tokenB",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "token0",
+        "type": "felt"
+      },
+      {
+        "name": "token1",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "quote",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountA",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveA",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveB",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountB",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_amount_out",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountIn",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveIn",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveOut",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountOut",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_amount_in",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountOut",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveIn",
+        "type": "Uint256"
+      },
+      {
+        "name": "reserveOut",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountIn",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_amounts_out",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountIn",
+        "type": "Uint256"
+      },
+      {
+        "name": "path_len",
+        "type": "felt"
+      },
+      {
+        "name": "path",
+        "type": "felt*"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amounts_len",
+        "type": "felt"
+      },
+      {
+        "name": "amounts",
+        "type": "Uint256*"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_amounts_in",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountOut",
+        "type": "Uint256"
+      },
+      {
+        "name": "path_len",
+        "type": "felt"
+      },
+      {
+        "name": "path",
+        "type": "felt*"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amounts_len",
+        "type": "felt"
+      },
+      {
+        "name": "amounts",
+        "type": "Uint256*"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "add_liquidity",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "tokenA",
+        "type": "felt"
+      },
+      {
+        "name": "tokenB",
+        "type": "felt"
+      },
+      {
+        "name": "amountADesired",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountBDesired",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountAMin",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountBMin",
+        "type": "Uint256"
+      },
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "deadline",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountA",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountB",
+        "type": "Uint256"
+      },
+      {
+        "name": "liquidity",
+        "type": "Uint256"
+      }
+    ]
+  },
+  {
+    "name": "remove_liquidity",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "tokenA",
+        "type": "felt"
+      },
+      {
+        "name": "tokenB",
+        "type": "felt"
+      },
+      {
+        "name": "liquidity",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountAMin",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountBMin",
+        "type": "Uint256"
+      },
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "deadline",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountA",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountB",
+        "type": "Uint256"
+      }
+    ]
+  },
+  {
+    "name": "swap_exact_tokens_for_tokens",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountIn",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountOutMin",
+        "type": "Uint256"
+      },
+      {
+        "name": "path_len",
+        "type": "felt"
+      },
+      {
+        "name": "path",
+        "type": "felt*"
+      },
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "deadline",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amounts_len",
+        "type": "felt"
+      },
+      {
+        "name": "amounts",
+        "type": "Uint256*"
+      }
+    ]
+  },
+  {
+    "name": "swap_tokens_for_exact_tokens",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amountOut",
+        "type": "Uint256"
+      },
+      {
+        "name": "amountInMax",
+        "type": "Uint256"
+      },
+      {
+        "name": "path_len",
+        "type": "felt"
+      },
+      {
+        "name": "path",
+        "type": "felt*"
+      },
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "deadline",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amounts_len",
+        "type": "felt"
+      },
+      {
+        "name": "amounts",
+        "type": "Uint256*"
+      }
+    ]
+  }
+]

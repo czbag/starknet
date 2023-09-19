@@ -1,0 +1,36 @@
+[
+  {
+    "data": [
+      {
+        "name": "from_address",
+        "type": "felt"
+      },
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "theme",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "send",
+    "type": "event"
+  },
+  {
+    "name": "transaction",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "to",
+        "type": "felt"
+      },
+      {
+        "name": "theme",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  }
+]

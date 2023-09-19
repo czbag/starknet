@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "low",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "high",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "name": "transferERC20",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "_token",
+        "type": "felt"
+      },
+      {
+        "name": "_to",
+        "type": "felt"
+      },
+      {
+        "name": "_amount",
+        "type": "Uint256"
+      },
+      {
+        "name": "_ext",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  }
+]

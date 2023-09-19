@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "low",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "high",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "name": "initialized",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "data": [
+      {
+        "name": "l1_bridge_address",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "l1_bridge_set",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "l2_token_address",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "l2_token_set",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "l1_recipient",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      },
+      {
+        "name": "caller_address",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "withdraw_initiated",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "account",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      }
+    ],
+    "keys": [],
+    "name": "deposit_handled",
+    "type": "event"
+  },
+  {
+    "name": "get_governor",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_l1_bridge",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_l2_token",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_version",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "version",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_identity",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "identity",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "initialize",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "init_vector_len",
+        "type": "felt"
+      },
+      {
+        "name": "init_vector",
+        "type": "felt*"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "set_l1_bridge",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "l1_bridge_address",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "set_l2_token",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "l2_token_address",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "initiate_withdraw",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "l1_recipient",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "handle_deposit",
+    "type": "l1_handler",
+    "inputs": [
+      {
+        "name": "from_address",
+        "type": "felt"
+      },
+      {
+        "name": "account",
+        "type": "felt"
+      },
+      {
+        "name": "amount_low",
+        "type": "felt"
+      },
+      {
+        "name": "amount_high",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  }
+]
