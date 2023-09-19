@@ -1,0 +1,7 @@
+loguru==0.7.1
+questionary==2.0.1
+starknet-py==0.18.1
+tabulate==0.9.0
+requests==2.31.0
+tqdm==4.66.1
+web3==6.9.0
