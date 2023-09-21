@@ -150,8 +150,7 @@ class Starknet:
         transaction = await self.account.sign_invoke_transaction(
             calls=calls,
             auto_estimate=True,
-            nonce=await self.account.get_nonce(),
-            cairo_version=0
+            nonce=await self.account.get_nonce()
         )
 
         return transaction
