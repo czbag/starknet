@@ -24,7 +24,7 @@ def get_module():
             Choice("6) Make swap on 10kSwap", swap_starkswap),
             Choice("7) Make swap on SithSwap", swap_sithswap),
             Choice("8) Make swap on Avnu", swap_avnu),
-            Choice("9) Make swap on Protoss", swap_prototss),
+            Choice("9) Make swap on Protoss", swap_protoss),
             Choice("10) Make swap on Fibrous", swap_fibrous),
             Choice("11) Deposit ZkLend", deposit_zklend),
             Choice("12) Withdraw ZkLend", withdraw_zklend),
