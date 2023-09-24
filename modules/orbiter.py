@@ -54,7 +54,7 @@ class Orbiter:
         elif amount_wei + self.bridge_codes["starknet"] >= balance:
             logger.error(f"Limit range amount for bridge 0.005 - 5 ETH | {amount} ETH")
         else:
-            contract = eth_account.get_contract(ORBITER_CONTRACTS["deposit"], ORBITER_DEPOSIT_ABI)
+            contract = eth_account.get_contract(ORBITER_CONTRACTS["bridge"], ORBITER_DEPOSIT_ABI)
 
             tx = {
                 "chainId": await eth_account.w3.eth.chain_id,
@@ -66,7 +66,7 @@ class Orbiter:
             recipient = "0x03" + self.recipient[2:]
 
             transaction = await contract.functions.transfer(
-                "0x80C67432656d59144cEFf962E8fAF8926599bCF8",
+                ORBITER_CONTRACTS["deposit"],
                 recipient
             ).build_transaction(tx)
 

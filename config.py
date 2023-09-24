@@ -66,7 +66,8 @@ BRIDGE_CONTRACTS = {
 }
 
 ORBITER_CONTRACTS = {
-    "deposit": "0xd9d74a29307cc6fc8bf424ee4217f1a587fbc8dc",
+    "bridge": "0xd9d74a29307cc6fc8bf424ee4217f1a587fbc8dc",
+    "deposit": "",
     "withdraw": 0x173f81c529191726c6e7287e24626fe24760ac44dae2a1f7e02080230f8458b
 }
 
