@@ -91,8 +91,8 @@ async def swap_avnu(_id, key, type_account):
     min_percent = 100
     max_percent = 100
 
-    jediswap = Avnu(_id, key, type_account)
-    await jediswap.swap(
+    avnu = Avnu(_id, key, type_account)
+    await avnu.swap(
         from_token, to_token, min_amount, max_amount, decimal, slippage, all_amount, min_percent, max_percent
     )
 
@@ -221,7 +221,7 @@ async def swap_sithswap(_id, key, type_account):
     )
 
 
-async def swap_prototss(_id, key, type_account):
+async def swap_protoss(_id, key, type_account):
     """
     Make swap on Protoss
     ______________________________________________________
@@ -287,10 +287,13 @@ async def deposit_zklend(_id, key, type_account):
     """
     Make deposit on ZkLend
     ______________________________________________________
+    use_token – random choice token for deposit ["ETH", "DAI", "USDC"], you can use only one token ["ETH"]
     make_withdraw - True, if need withdraw after deposit
 
     all_amount - deposit from min_percent to max_percent
     """
+
+    use_token = ["ETH", "DAI", "USDC"]
 
     min_amount = 0.0001
     max_amount = 0.0002
@@ -308,8 +311,48 @@ async def deposit_zklend(_id, key, type_account):
 
     zklend = ZkLend(_id, key, type_account)
     await zklend.deposit(
-        min_amount, max_amount, decimal, sleep_from, sleep_to, make_withdraw, all_amount, min_percent, max_percent
+        use_token, min_amount, max_amount, decimal, sleep_from,
+        sleep_to, make_withdraw, all_amount, min_percent, max_percent
     )
+
+
+async def withdraw_zklend(_id, key, type_account):
+    """
+    Make withdraw from ZkLend
+    ______________________________________________________
+    use_token – random choice token for withdraw ["ETH", "DAI", "USDC"], you can use only one token ["ETH"]
+    """
+
+    use_token = ["ETH", "DAI", "USDC"]
+
+    zklend = ZkLend(_id, key, type_account)
+    await zklend.withdraw_all(use_token)
+
+
+async def enable_collateral_zklend(_id, key, type_account):
+    """
+    Enable collaterl on ZkLend
+    ______________________________________________________
+    use_token – random choice token for withdraw ["ETH", "DAI", "USDC"], you can use only one token ["ETH"]
+    """
+
+    use_token = ["ETH", "DAI", "USDC"]
+
+    zklend = ZkLend(_id, key, type_account)
+    await zklend.enable_collateral(use_token)
+
+
+async def disable_collateral_zklend(_id, key, type_account):
+    """
+    Disable collateral on ZkLend
+    ______________________________________________________
+    use_token – random choice token ["ETH", "DAI", "USDC"], you can use only one token ["ETH"]
+    """
+
+    use_token = ["DAI"]
+
+    zklend = ZkLend(_id, key, type_account)
+    await zklend.disable_collateral(use_token)
 
 
 async def make_transfer(_id, key, type_account, recipient):
@@ -397,21 +440,6 @@ async def mint_starknet_id(_id, key, type_account):
 async def send_mail_dmail(_id, key, type_account):
     dmail = Dmail(_id, key, type_account)
     await dmail.send_mail()
-
-
-async def withdraw_zklend(_id, key, type_account):
-    zklend = ZkLend(_id, key, type_account)
-    await zklend.withdraw_all()
-
-
-async def enable_collateral_zklend(_id, key, type_account):
-    zklend = ZkLend(_id, key, type_account)
-    await zklend.enable_collateral()
-
-
-async def disable_collateral_zklend(_id, key, type_account):
-    zklend = ZkLend(_id, key, type_account)
-    await zklend.disable_collateral()
 
 
 async def mint_starkverse(_id, key, type_account):

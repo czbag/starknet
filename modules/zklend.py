@@ -1,23 +1,25 @@
+import random
+from typing import List, Union
+
 from loguru import logger
 from starknet_py.hash.selector import get_selector_from_name
 from starknet_py.net.client_models import Call
-from web3 import Web3
 
 from utils.gas_checker import check_gas
 from utils.helpers import retry
 from utils.sleeping import sleep
 from . import Starknet
-from config import ZKLEND_CONTRACT, ZKLEND_ETH_CONCTRACT, STARKNET_TOKENS
+from config import ZKLEND_CONCTRACTS, STARKNET_TOKENS
 
 
 class ZkLend(Starknet):
     def __init__(self, _id: int, private_key: str, type_account: str) -> None:
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
 
-    async def get_deposit_amount(self):
-        zklend_eth_contract = self.get_contract(ZKLEND_ETH_CONCTRACT)
+    async def get_deposit_amount(self, token: str):
+        zklend_contract = self.get_contract(ZKLEND_CONCTRACTS[token])
 
-        amount_data = await zklend_eth_contract.functions["balanceOf"].call(
+        amount_data = await zklend_contract.functions["balanceOf"].call(
             self.address
         )
         amount = amount_data.balance
@@ -28,6 +30,7 @@ class ZkLend(Starknet):
     @check_gas
     async def deposit(
             self,
+            use_token: List,
             min_amount: float,
             max_amount: float,
             decimal: int,
@@ -38,8 +41,10 @@ class ZkLend(Starknet):
             min_percent: int,
             max_percent: int
     ):
+        token = random.choice(use_token)
+
         amount_wei, amount, balance = await self.get_amount(
-            "ETH",
+            token,
             min_amount,
             max_amount,
             decimal,
@@ -48,19 +53,19 @@ class ZkLend(Starknet):
             max_percent
         )
 
-        logger.info(f"[{self._id}][{hex(self.address)}] Make deposit on ZkLend")
+        logger.info(f"[{self._id}][{hex(self.address)}] Make deposit {token} on ZkLend")
 
-        approve_contract = self.get_contract(STARKNET_TOKENS["ETH"])
+        approve_contract = self.get_contract(STARKNET_TOKENS[token])
 
         approve_call = approve_contract.functions["approve"].prepare(
-            ZKLEND_CONTRACT,
+            ZKLEND_CONCTRACTS["router"],
             amount_wei
         )
 
         deposit_call = Call(
-            to_addr=ZKLEND_CONTRACT,
+            to_addr=ZKLEND_CONCTRACTS["router"],
             selector=get_selector_from_name("deposit"),
-            calldata=[STARKNET_TOKENS["ETH"], amount_wei],
+            calldata=[STARKNET_TOKENS[token], amount_wei],
         )
 
         transaction = await self.sign_transaction([approve_call, deposit_call])
@@ -72,23 +77,24 @@ class ZkLend(Starknet):
         if make_withdraw:
             sleep(sleep_from, sleep_to)
 
-            await self.withdraw_all()
+            await self.withdraw_all(token)
 
     @retry
     @check_gas
-    async def withdraw_all(self):
-        amount = await self.get_deposit_amount()
+    async def withdraw_all(self, use_token: Union[str, List]):
+        token = random.choice(use_token) if type(use_token) is list else use_token
+
+        amount = await self.get_deposit_amount(token)
 
         logger.info(
-            f"[{self._id}][{hex(self.address)}] Make withdraw from ZkLend | " +
-            f"{Web3.from_wei(amount, 'ether')} ETH"
+            f"[{self._id}][{hex(self.address)}] Make withdraw {token} from ZkLend"
         )
 
         if amount > 0:
             withdraw_all_call = Call(
-                to_addr=ZKLEND_CONTRACT,
+                to_addr=ZKLEND_CONCTRACTS["router"],
                 selector=get_selector_from_name("withdraw_all"),
-                calldata=[STARKNET_TOKENS["ETH"]],
+                calldata=[STARKNET_TOKENS[token]],
             )
 
             transaction = await self.sign_transaction([withdraw_all_call])
@@ -101,13 +107,15 @@ class ZkLend(Starknet):
 
     @retry
     @check_gas
-    async def enable_collateral(self):
-        logger.info(f"[{self._id}][{hex(self.address)}] Make enable collateral on ZkLend")
+    async def enable_collateral(self, use_token: List):
+        token = random.choice(use_token)
+
+        logger.info(f"[{self._id}][{hex(self.address)}] Make enable collateral {token} for ZkLend")
 
         enable_collateral_call = Call(
-            to_addr=ZKLEND_CONTRACT,
+            to_addr=ZKLEND_CONCTRACTS["router"],
             selector=get_selector_from_name("enable_collateral"),
-            calldata=[STARKNET_TOKENS["ETH"]],
+            calldata=[STARKNET_TOKENS[token]],
         )
 
         transaction = await self.sign_transaction([enable_collateral_call])
@@ -118,13 +126,15 @@ class ZkLend(Starknet):
 
     @retry
     @check_gas
-    async def disable_collateral(self):
-        logger.info(f"[{self._id}][{hex(self.address)}] Make disable collateral on ZkLend")
+    async def disable_collateral(self, use_token: List):
+        token = random.choice(use_token)
+
+        logger.info(f"[{self._id}][{hex(self.address)}] Make disable collateral {token} for ZkLend")
 
         disable_collateral_call = Call(
-            to_addr=ZKLEND_CONTRACT,
+            to_addr=ZKLEND_CONCTRACTS["router"],
             selector=get_selector_from_name("disable_collateral"),
-            calldata=[STARKNET_TOKENS["ETH"]],
+            calldata=[STARKNET_TOKENS[token]],
         )
 
         transaction = await self.sign_transaction([disable_collateral_call])
