@@ -1,4 +1,5 @@
 from loguru import logger
+from web3 import Web3
 
 from utils.gas_checker import check_gas
 from utils.helpers import retry
@@ -66,7 +67,7 @@ class Orbiter:
             recipient = "0x03" + self.recipient[2:]
 
             transaction = await contract.functions.transfer(
-                ORBITER_CONTRACTS["deposit"],
+                Web3.to_checksum_address(ORBITER_CONTRACTS["deposit"]),
                 recipient
             ).build_transaction(tx)
 
