@@ -42,8 +42,7 @@ class Starknet:
     def __init__(self, _id: int, private_key: str, type_account: str) -> None:
         self._id = _id
         self.key_pair = KeyPair.from_private_key(private_key)
-        self.client = GatewayClient("mainnet")
-        # self.client = FullNodeClient(random.choice(RPC["starknet"]["rpc"]))
+        self.client = FullNodeClient(random.choice(RPC["starknet"]["rpc"]))
         self.address = self._create_account(type_account)
         self.account = Account(
             address=self.address,
