@@ -29,13 +29,13 @@ class Dmail(Starknet):
 
         email_address, theme = await self.generate_mail_data()
 
-        mint_starknet_id_call = Call(
+        dmail_call = Call(
             to_addr=DMAIL_CONTRACT,
             selector=get_selector_from_name("transaction"),
             calldata=[email_address, theme],
         )
 
-        transaction = await self.sign_transaction([mint_starknet_id_call])
+        transaction = await self.sign_transaction([dmail_call])
 
         transaction_response = await self.send_transaction(transaction)
 

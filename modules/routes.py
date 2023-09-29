@@ -13,7 +13,7 @@ class Routes(Starknet):
         self.type_account = type_account
 
     async def start(self, use_modules: list, sleep_from: int, sleep_to: int, random_module: bool):
-        logger.info(f"[{self._id}][{self.address}] Start using routes")
+        logger.info(f"[{self._id}][{hex(self.address)}] Start using routes")
 
         for _ in range(0, len(use_modules)):
             if random_module:

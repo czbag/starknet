@@ -13,6 +13,7 @@ from .zklend import ZkLend
 from .starknet_id import StarknetId
 from .dmail import Dmail
 from .starkverse import StarkVerse
+from .pyramid import Pyramid
 from .transfer import Transfer
 from .multiswap import Multiswap
 from .routes import Routes

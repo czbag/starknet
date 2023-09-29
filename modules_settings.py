@@ -50,8 +50,8 @@ async def bridge_orbiter(_id, key, type_account, recipient):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_chain = "starknet"
-    to_chain = "arbitrum"
+    from_chain = "arbitrum"
+    to_chain = "starknet"
 
     min_amount = 0.005
     max_amount = 0.006
@@ -444,6 +444,11 @@ async def send_mail_dmail(_id, key, type_account):
 
 async def mint_starkverse(_id, key, type_account):
     starkverse = StarkVerse(_id, key, type_account)
+    await starkverse.mint()
+
+
+async def create_collection_pyramid(_id, key, type_account):
+    starkverse = Pyramid(_id, key, type_account)
     await starkverse.mint()
 
 
