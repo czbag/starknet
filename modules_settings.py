@@ -448,8 +448,8 @@ async def mint_starkverse(_id, key, type_account):
 
 
 async def create_collection_pyramid(_id, key, type_account):
-    starkverse = Pyramid(_id, key, type_account)
-    await starkverse.mint()
+    pyramid = Pyramid(_id, key, type_account)
+    await pyramid.mint()
 
 
 def get_tx_count(type_account):
