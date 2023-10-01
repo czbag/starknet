@@ -16,5 +16,6 @@ from .starkverse import StarkVerse
 from .pyramid import Pyramid
 from .transfer import Transfer
 from .multiswap import Multiswap
+from .swap_tokens import SwapTokens
 from .routes import Routes
 from .tx_checker import check_tx

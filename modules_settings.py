@@ -405,6 +405,24 @@ async def swap_multiswap(_id, key, type_account):
     )
 
 
+async def swap_tokens(_id, key, type_account):
+    """
+    SwapTokens module: Automatically swap tokens to ETH
+    ______________________________________________________
+    use_dex - Choose any dex: jediswap, myswap, 10kswap, sithswap, protoss, avnu, fibrous
+    """
+
+    use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu", "fibrous"]
+
+    sleep_from = 15
+    sleep_to = 50
+
+    slippage = 2
+
+    multi = SwapTokens(_id, key, type_account)
+    await multi.swap(use_dex, sleep_from, sleep_to, slippage)
+
+
 async def custom_routes(account_id, key, type_account):
     """
     swap_jediswap, swap_myswap, swap_starkswap, swap_sithswap, swap_protoss, swap_avnu, swap_fibrous,

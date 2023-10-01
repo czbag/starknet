@@ -17,7 +17,8 @@ async def get_quotes(from_token: int, to_token: int, amount: int):
         params = {
             "sellTokenAddress": hex(from_token),
             "buyTokenAddress": hex(to_token),
-            "sellAmount": hex(amount)
+            "sellAmount": hex(amount),
+            "excludeSources": "Ekubo"
         }
 
         if AVNU_CONTRACT["use_ref"]:
