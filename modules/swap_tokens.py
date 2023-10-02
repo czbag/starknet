@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 from loguru import logger
 from web3 import Web3
@@ -30,19 +31,19 @@ class SwapTokens(Starknet):
 
     async def swap(
             self,
-            use_dex: list,
+            use_dex: List,
+            tokens: List,
             sleep_from: int,
             sleep_to: int,
             slippage: int,
+            min_percent: int,
+            max_percent: int,
     ):
-        random.shuffle(list(STARKNET_TOKENS))
+        random.shuffle(tokens)
 
         logger.info(f"[{self._id}][{hex(self.address)}] Start swap tokens")
 
-        for _, token in enumerate(STARKNET_TOKENS, start=1):
-            if token == "ETH":
-                continue
-
+        for _, token in enumerate(tokens, start=1):
             balance = await self.get_balance(STARKNET_TOKENS[token])
 
             if balance["balance_wei"] > 0:
@@ -55,8 +56,8 @@ class SwapTokens(Starknet):
                     balance["decimal"],
                     slippage,
                     True,
-                    100,
-                    100
+                    min_percent,
+                    max_percent
                 )
 
             if _ != len(STARKNET_TOKENS):

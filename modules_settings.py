@@ -414,13 +414,18 @@ async def swap_tokens(_id, key, type_account):
 
     use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu", "fibrous"]
 
+    tokens = ["USDC", "DAI"]
+
     sleep_from = 15
     sleep_to = 50
 
     slippage = 2
 
+    min_percent = 100
+    max_percent = 100
+
     multi = SwapTokens(_id, key, type_account)
-    await multi.swap(use_dex, sleep_from, sleep_to, slippage)
+    await multi.swap(use_dex, tokens, sleep_from, sleep_to, slippage, min_percent, max_percent)
 
 
 async def custom_routes(account_id, key, type_account):

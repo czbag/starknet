@@ -21,7 +21,7 @@ class StarknetId(Starknet):
         mint_starknet_id_call = Call(
             to_addr=STARKNET_ID_CONTRACT,
             selector=get_selector_from_name("mint"),
-            calldata=[random.randint(100000000000, 999999999999)],
+            calldata=[int(random.random() * 1e12)],
         )
 
         transaction = await self.sign_transaction([mint_starknet_id_call])
