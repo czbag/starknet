@@ -1,3 +1,4 @@
+import asyncio
 import time
 import random
 
@@ -37,10 +38,10 @@ def wait_gas_ethereum():
 async def wait_gas_starknet():
     logger.info("Get GWEI")
 
-    clinet = GatewayClient("mainnet")
+    client = GatewayClient("mainnet")
 
     while True:
-        block_data = await clinet.get_block("latest")
+        block_data = await client.get_block("latest")
         gas = Web3.from_wei(block_data.gas_price, "gwei")
 
         if gas > MAX_GWEI:
@@ -53,12 +54,12 @@ async def wait_gas_starknet():
 
 def check_gas(network: str):
     def decorator(func):
-        async def _wrapper(*args, **kwargs):
+        def _wrapper(*args, **kwargs):
             if CHECK_GWEI:
                 if network == "ethereum":
                     wait_gas_ethereum()
                 else:
-                    await wait_gas_starknet()
+                    asyncio.create_task(wait_gas_starknet())
             return func(*args, **kwargs)
 
         return _wrapper
