@@ -13,7 +13,7 @@ class Transfer(Starknet):
         self.recipient = recipient
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def transfer_eth(
             self,
             min_amount: float,

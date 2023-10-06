@@ -27,6 +27,7 @@ class Orbiter:
             "base": 9021,
         }
 
+    @check_gas("ethereum")
     async def bridge_to_starknet(
             self,
             from_chain: str,
@@ -77,6 +78,7 @@ class Orbiter:
 
             await eth_account.wait_until_tx_finished(txn_hash)
 
+    @check_gas("starknet")
     async def bridge_to_evm(
             self,
             to_chain: str,
@@ -122,7 +124,6 @@ class Orbiter:
         await starknet_account.wait_until_tx_finished(transaction_response.transaction_hash)
 
     @retry
-    @check_gas
     async def bridge(
             self,
             from_chain: str,

@@ -79,17 +79,17 @@ async def swap_avnu(_id, key, type_account):
     """
 
     from_token = "ETH"
-    to_token = "USDC"
+    to_token = "USDT"
 
     min_amount = 0.0001
     max_amount = 0.0001
     decimal = 4
     slippage = 1
 
-    all_amount = False
+    all_amount = True
 
-    min_percent = 100
-    max_percent = 100
+    min_percent = 10
+    max_percent = 10
 
     avnu = Avnu(_id, key, type_account)
     await avnu.swap(
@@ -109,7 +109,7 @@ async def swap_jediswap(_id, key, type_account):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_token = "USDC"
+    from_token = "USDT"
     to_token = "ETH"
 
     min_amount = 0.001
@@ -141,7 +141,7 @@ async def swap_myswap(_id, key, type_account):
     """
 
     from_token = "ETH"
-    to_token = "USDC"
+    to_token = "USDT"
 
     min_amount = 0.001
     max_amount = 0.002
@@ -171,7 +171,7 @@ async def swap_starkswap(_id, key, type_account):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_token = "USDC"
+    from_token = "USDT"
     to_token = "ETH"
 
     min_amount = 0.001
@@ -203,7 +203,7 @@ async def swap_sithswap(_id, key, type_account):
     """
 
     from_token = "ETH"
-    to_token = "USDC"
+    to_token = "USDT"
 
     min_amount = 0.001
     max_amount = 0.002
@@ -233,7 +233,7 @@ async def swap_protoss(_id, key, type_account):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_token = "USDC"
+    from_token = "USDT"
     to_token = "ETH"
 
     min_amount = 0.001
@@ -243,8 +243,8 @@ async def swap_protoss(_id, key, type_account):
 
     all_amount = True
 
-    min_percent = 5
-    max_percent = 10
+    min_percent = 100
+    max_percent = 100
 
     protoss = Protoss(_id, key, type_account)
     await protoss.swap(
@@ -265,7 +265,7 @@ async def swap_fibrous(_id, key, type_account):
     """
 
     from_token = "ETH"
-    to_token = "USDC"
+    to_token = "USDT"
 
     min_amount = 0.001
     max_amount = 0.002
@@ -274,8 +274,8 @@ async def swap_fibrous(_id, key, type_account):
 
     all_amount = True
 
-    min_percent = 1
-    max_percent = 1
+    min_percent = 10
+    max_percent = 10
 
     fibrous = Fibrous(_id, key, type_account)
     await fibrous.swap(
@@ -293,7 +293,7 @@ async def deposit_zklend(_id, key, type_account):
     all_amount - deposit from min_percent to max_percent
     """
 
-    use_token = ["ETH", "DAI", "USDC"]
+    use_token = ["USDT"]
 
     min_amount = 0.0001
     max_amount = 0.0002
@@ -386,8 +386,8 @@ async def swap_multiswap(_id, key, type_account):
 
     use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu", "fibrous"]
 
-    min_swap = 4
-    max_swap = 10
+    min_swap = 1
+    max_swap = 3
 
     sleep_from = 150
     sleep_to = 500
@@ -440,7 +440,7 @@ async def custom_routes(account_id, key, type_account):
     The script will start with module 1, 2, 5 and select a random one from module 3 and 4
     """
 
-    use_modules = [swap_multiswap, mint_starknet_id, deposit_zklend]
+    use_modules = [swap_multiswap, [swap_tokens, deposit_zklend]]
 
     sleep_from = 150
     sleep_to = 700

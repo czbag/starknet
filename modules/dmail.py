@@ -16,7 +16,7 @@ class Dmail(Starknet):
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def send_mail(self):
         logger.info(f"[{self._id}][{hex(self.address)}] Dmail send mail")
 

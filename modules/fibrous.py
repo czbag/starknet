@@ -16,6 +16,7 @@ async def get_route(from_token: int, to_token: int, amount: int):
             "amount": hex(amount),
             "tokenInAddress": hex(from_token),
             "tokenOutAddress": hex(to_token),
+            "excludeProtocols": 5
         }
 
         response = await session.get(url=url, params=params)
@@ -29,7 +30,7 @@ class Fibrous(Starknet):
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def swap(
             self,
             from_token: str,

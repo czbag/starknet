@@ -14,6 +14,8 @@ class MySwap(Starknet):
         self.pool_data = {
             "ETHUSDC": 1,
             "DAIETH": 2,
+            "ETHUSDT": 4,
+            "USDCUSDT": 5,
             "DAIUSDC": 6
         }
 
@@ -46,7 +48,7 @@ class MySwap(Starknet):
         return int(min_amount_out - (min_amount_out / 100 * slippage))
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def swap(
             self,
             from_token: str,

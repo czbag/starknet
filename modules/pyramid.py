@@ -22,7 +22,7 @@ class Pyramid(Starknet):
         return fee.cost
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def mint(self):
         logger.info(f"[{self._id}][{hex(self.address)}] Mint NFT on Pyramid")
 

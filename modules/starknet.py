@@ -13,7 +13,6 @@ from starknet_py.hash.selector import get_selector_from_name
 from starknet_py.net.account.account import Account
 from starknet_py.net.client_models import Call
 from starknet_py.net.full_node_client import FullNodeClient
-from starknet_py.net.gateway_client import GatewayClient
 from starknet_py.net.models import StarknetChainId, Invoke
 from starknet_py.net.signer.stark_curve_signer import KeyPair
 from web3 import Web3
@@ -166,7 +165,7 @@ class Starknet:
         logger.success(f"[{self._id}][{hex(self.address)}] {self.explorer}{hex(tx_hash)} successfully!")
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def withdraw(
             self,
             recipient: str,

@@ -27,7 +27,7 @@ class ZkLend(Starknet):
         return amount
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def deposit(
             self,
             use_token: List,
@@ -80,7 +80,7 @@ class ZkLend(Starknet):
             await self.withdraw_all(token)
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def withdraw_all(self, use_token: Union[str, List]):
         token = random.choice(use_token) if type(use_token) is list else use_token
 
@@ -106,7 +106,7 @@ class ZkLend(Starknet):
             logger.error(f"[{self._id}][{hex(self.address)}] Deposit not found")
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def enable_collateral(self, use_token: List):
         token = random.choice(use_token)
 
@@ -125,7 +125,7 @@ class ZkLend(Starknet):
         await self.wait_until_tx_finished(transaction_response.transaction_hash)
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def disable_collateral(self, use_token: List):
         token = random.choice(use_token)
 

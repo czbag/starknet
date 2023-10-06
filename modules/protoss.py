@@ -25,7 +25,7 @@ class Protoss(Starknet):
         return int(min_amount_out[1] - (min_amount_out[1] / 100 * slippage))
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def swap(
             self,
             from_token: str,

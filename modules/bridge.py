@@ -44,7 +44,7 @@ class Bridge(Account):
         return tx
 
     @retry
-    @check_gas
+    @check_gas("ethereum")
     async def deposit(
             self,
             min_amount: float,

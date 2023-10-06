@@ -27,7 +27,7 @@ class SithSwap(Starknet):
         return int(min_amount_out - (min_amount_out / 100 * slippage)), stable
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def swap(
             self,
             from_token: str,

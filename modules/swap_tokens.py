@@ -5,6 +5,8 @@ from loguru import logger
 from web3 import Web3
 from config import STARKNET_TOKENS
 from modules import *
+from utils.gas_checker import check_gas
+from utils.helpers import retry
 from utils.sleeping import sleep
 
 
@@ -29,6 +31,8 @@ class SwapTokens(Starknet):
 
         return self.swap_modules[swap_module]
 
+    @retry
+    @check_gas("starknet")
     async def swap(
             self,
             use_dex: List,

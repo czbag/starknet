@@ -13,7 +13,7 @@ class StarkVerse(Starknet):
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
 
     @retry
-    @check_gas
+    @check_gas("starknet")
     async def mint(self):
         logger.info(f"[{self._id}][{hex(self.address)}] Mint StarkVerse NFT")
 
