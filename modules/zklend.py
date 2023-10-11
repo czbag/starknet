@@ -75,7 +75,7 @@ class ZkLend(Starknet):
         await self.wait_until_tx_finished(transaction_response.transaction_hash)
 
         if make_withdraw:
-            sleep(sleep_from, sleep_to)
+            await sleep(sleep_from, sleep_to)
 
             await self.withdraw_all(token)
 

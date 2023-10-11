@@ -32,7 +32,7 @@ async def wait_gas_ethereum():
 
         if gas > MAX_GWEI:
             logger.info(f'Current GWEI: {gas} > {MAX_GWEI}')
-            sleep(60, 70)
+            await sleep(60, 70)
         else:
             logger.success(f"GWEI is normal | current: {gas} < {MAX_GWEI}")
             break
@@ -49,7 +49,7 @@ async def wait_gas_starknet():
 
         if gas > MAX_GWEI:
             logger.info(f'Current GWEI: {gas} > {MAX_GWEI}')
-            sleep(60, 70)
+            await sleep(60, 70)
         else:
             logger.success(f"GWEI is normal | current: {gas} < {MAX_GWEI}")
             break

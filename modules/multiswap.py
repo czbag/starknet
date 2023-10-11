@@ -84,4 +84,4 @@ class Multiswap(Starknet):
             )
 
             if _ != len(path):
-                sleep(sleep_from, sleep_to)
+                await sleep(sleep_from, sleep_to)

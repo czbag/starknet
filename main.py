@@ -4,12 +4,13 @@ import sys
 from typing import Union
 
 import questionary
+from loguru import logger
 from questionary import Choice
 
 from config import ACCOUNTS, RECIPIENTS
-from utils.sleeping import sleep
+from utils.helpers import get_run_accounts, update_run_accounts
 from modules_settings import *
-from settings import TYPE_WALLET, RANDOM_WALLET, IS_SLEEP, SLEEP_FROM, SLEEP_TO
+from settings import TYPE_WALLET, RANDOM_WALLET, SLEEP_FROM, SLEEP_TO, QUANTITY_RUN_ACCOUNTS
 
 
 def get_module():
@@ -73,27 +74,50 @@ def get_wallets(use_recipients: bool = False):
     return wallets
 
 
-def run_module(module, account_id, key, recipient: Union[str, None] = None):
-    if recipient:
-        asyncio.run(module(account_id, key, TYPE_WALLET, recipient))
-    else:
-        asyncio.run(module(account_id, key, TYPE_WALLET))
+async def run_module(module, account_id, key, sleep_time, start_id, recipient: Union[str, None] = None):
+    if start_id != 1:
+        await asyncio.sleep(sleep_time)
+
+    while True:
+        run_accounts = get_run_accounts()
+
+        if len(run_accounts["accounts"]) < QUANTITY_RUN_ACCOUNTS:
+            update_run_accounts(account_id, "add")
+
+            if recipient:
+                await module(account_id, key, TYPE_WALLET, recipient)
+            else:
+                await module(account_id, key, TYPE_WALLET)
+
+            update_run_accounts(account_id, "remove")
+
+            break
+        else:
+            logger.info(f'Current run accounts: {len(run_accounts["accounts"])}')
+            await asyncio.sleep(60)
 
 
-def main(module):
+async def main(module):
     if module in [deposit_starknet, withdraw_starknet, bridge_orbiter, make_transfer]:
         wallets = get_wallets(True)
     else:
         wallets = get_wallets()
 
+    tasks = []
+
+    sleep_time = random.randint(SLEEP_FROM, SLEEP_TO)
+
     if RANDOM_WALLET:
         random.shuffle(wallets)
 
-    for account in wallets:
-        run_module(module, account.get("id"), account.get("key"), account.get("recipient", None))
+    for _, account in enumerate(wallets, start=1):
+        tasks.append(asyncio.create_task(
+            run_module(module, account.get("id"), account.get("key"), sleep_time, _, account.get("recipient", None))
+        ))
 
-        if account != wallets[-1] and IS_SLEEP:
-            sleep(SLEEP_FROM, SLEEP_TO)
+        sleep_time += random.randint(SLEEP_FROM, SLEEP_TO)
+
+    await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
@@ -103,7 +127,7 @@ if __name__ == '__main__':
     if module == "tx_checker":
         get_tx_count(TYPE_WALLET)
     else:
-        main(module)
+        asyncio.run(main(module))
 
     print("\n❤️ Subscribe to me – https://t.me/sybilwave\n")
     print("🤑 Donate me: 0x00000b0ddce0bfda4531542ad1f2f5fad7b9cde9")

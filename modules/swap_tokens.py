@@ -65,4 +65,4 @@ class SwapTokens(Starknet):
                 )
 
             if _ != len(STARKNET_TOKENS):
-                sleep(sleep_from, sleep_to)
+                await sleep(sleep_from, sleep_to)

@@ -30,11 +30,11 @@ async def withdraw_starknet(_id, key, type_account, recipient):
     all_amount - swap from min_percent to max_percent
     """
 
-    min_amount = 0.0001
-    max_amount = 0.0002
+    min_amount = 0.019
+    max_amount = 0.02
     decimal = 5
 
-    all_amount = True
+    all_amount = False
 
     min_percent = 5
     max_percent = 5
@@ -293,7 +293,7 @@ async def deposit_zklend(_id, key, type_account):
     all_amount - deposit from min_percent to max_percent
     """
 
-    use_token = ["USDT"]
+    use_token = ["ETH"]
 
     min_amount = 0.0001
     max_amount = 0.0002
@@ -397,7 +397,7 @@ async def swap_multiswap(_id, key, type_account):
     random_swap_token = True
 
     min_percent = 10
-    max_percent = 50
+    max_percent = 60
 
     multi = Multiswap(_id, key, type_account)
     await multi.swap(
@@ -439,11 +439,42 @@ async def custom_routes(account_id, key, type_account):
     example [module_1, module_2, [module_3, module_4], module 5]
     The script will start with module 1, 2, 5 and select a random one from module 3 and 4
     """
+    """
+        BRIDGE:
+            – deposit_starknet
+            – withdraw_starknet
+            – bridge_orbiter
+        DEX:
+            – swap_jediswap
+            – swap_myswap
+            – swap_starkswap
+            – swap_sithswap
+            – swap_protoss
+            – swap_avnu
+            – swap_fibrous
+        LANDING:
+            – deposit_zklend
+            – withdraw_zklend
+            – enable_collateral_zklend
+            – disable_collateral_zklend
+        NFT/DOMAIN:
+            – mint_starknet_id
+            – mint_starkverse
+        ANOTHER:
+            – send_mail_dmail
+            – swap_tokens
+            – swap_multiswap
+            – make_transfer
+        ______________________________________________________
+        Disclaimer - You can add modules to [] to select random ones,
+        example [module_1, module_2, [module_3, module_4], module 5]
+        The script will start with module 1, 2, 5 and select a random one from module 3 and 4
+        """
 
-    use_modules = [swap_multiswap, [swap_tokens, deposit_zklend]]
+    use_modules = [deposit_zklend, deposit_zklend, deposit_zklend, deposit_zklend]
 
-    sleep_from = 150
-    sleep_to = 700
+    sleep_from = 1
+    sleep_to = 3
 
     random_module = True
 

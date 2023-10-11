@@ -27,4 +27,4 @@ class Routes(Starknet):
 
             await module(self._id, self.private_key, self.type_account)
 
-            sleep(sleep_from, sleep_to)
+            await sleep(sleep_from, sleep_to)

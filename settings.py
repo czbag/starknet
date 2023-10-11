@@ -4,8 +4,7 @@ TYPE_WALLET = "argent"  # argent/braavos
 # RANDOM WALLETS MODE
 RANDOM_WALLET = True  # True/False
 
-# SLEEP MODE
-IS_SLEEP = True  # True/False
+QUANTITY_RUN_ACCOUNTS = 5
 
 SLEEP_FROM = 100
 SLEEP_TO = 700
