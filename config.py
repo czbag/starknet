@@ -39,9 +39,6 @@ with open('data/abi/sithswap/abi.json') as file:
 with open('data/abi/protoss/abi.json') as file:
     PROTOSS_ABI = json.load(file)
 
-with open('data/abi/fibrous/abi.json') as file:
-    FIBROUS_ABI = json.load(file)
-
 with open('data/abi/zklend/abi.json') as file:
     ZKLEND_ABI = json.load(file)
 
@@ -95,8 +92,6 @@ AVNU_CONTRACT = {
     "router": 0x04270219d365d6b017231b52e92b3fb5d7c8378b05e9abc97724537a80e93b0f,
     "use_ref": True  # If you use True, you support me 1% of the transaction amount
 }
-
-FIBROUS_CONTRACT = 0x01b23ed400b210766111ba5b1e63e33922c6ba0c45e6ad56ce112e5f4c578e62
 
 ZKLEND_CONCTRACTS = {
     "router": 0x04c0a5193d58f74fbace4b74dcf65481e734ed1714121bdc571da345540efa05,
