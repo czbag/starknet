@@ -23,7 +23,6 @@ class SwapTokens(Starknet):
             "sithswap": SithSwap,
             "protoss": Protoss,
             "avnu": Avnu,
-            "fibrous": Fibrous
         }
 
     def get_swap_module(self, use_dex: list):

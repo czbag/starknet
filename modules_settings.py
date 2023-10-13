@@ -252,37 +252,6 @@ async def swap_protoss(_id, key, type_account):
     )
 
 
-async def swap_fibrous(_id, key, type_account):
-    """
-    Make swap on Fibrous
-    ______________________________________________________
-    from_token – Choose SOURCE token ETH, USDC, DAI | Select one
-    to_token – Choose DESTINATION token ETH, USDC, DAI | Select one
-
-    Disclaimer - You can swap only ETH to any token or any token to ETH!
-    ______________________________________________________
-    all_amount - swap from min_percent to max_percent
-    """
-
-    from_token = "ETH"
-    to_token = "USDT"
-
-    min_amount = 0.001
-    max_amount = 0.002
-    decimal = 6
-    slippage = 1
-
-    all_amount = True
-
-    min_percent = 10
-    max_percent = 10
-
-    fibrous = Fibrous(_id, key, type_account)
-    await fibrous.swap(
-        from_token, to_token, min_amount, max_amount, decimal, slippage, all_amount, min_percent, max_percent
-    )
-
-
 async def deposit_zklend(_id, key, type_account):
     """
     Make deposit on ZkLend
@@ -377,14 +346,14 @@ async def swap_multiswap(_id, key, type_account):
     """
     Multi-Swap module: Automatically performs the specified number of swaps in one of the dexes.
     ______________________________________________________
-    use_dex - Choose any dex: jediswap, myswap, 10kswap, sithswap, protoss, avnu, fibrous
+    use_dex - Choose any dex: jediswap, myswap, 10kswap, sithswap, protoss, avnu
     quantity_swap - Quantity swaps
     ______________________________________________________
     random_swap_token - If True the swap path will be [ETH -> USDC -> USDC -> ETH] (random!)
     If False the swap path will be [ETH -> USDC -> ETH -> USDC]
     """
 
-    use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu", "fibrous"]
+    use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu"]
 
     min_swap = 1
     max_swap = 3
@@ -409,10 +378,10 @@ async def swap_tokens(_id, key, type_account):
     """
     SwapTokens module: Automatically swap tokens to ETH
     ______________________________________________________
-    use_dex - Choose any dex: jediswap, myswap, 10kswap, sithswap, protoss, avnu, fibrous
+    use_dex - Choose any dex: jediswap, myswap, 10kswap, sithswap, protoss, avnu
     """
 
-    use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu", "fibrous"]
+    use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu"]
 
     tokens = ["USDC", "DAI"]
 
@@ -430,7 +399,7 @@ async def swap_tokens(_id, key, type_account):
 
 async def custom_routes(account_id, key, type_account):
     """
-    swap_jediswap, swap_myswap, swap_starkswap, swap_sithswap, swap_protoss, swap_avnu, swap_fibrous,
+    swap_jediswap, swap_myswap, swap_starkswap, swap_sithswap, swap_protoss, swap_avnu,
     deposit_zklend, withdraw_zklend, enable_collateral_zklend, disable_collateral_zklend,
     mint_starknet_id, mint_starkverse, send_mail_dmail,
     swap_multiswap
@@ -451,7 +420,6 @@ async def custom_routes(account_id, key, type_account):
             – swap_sithswap
             – swap_protoss
             – swap_avnu
-            – swap_fibrous
         LANDING:
             – deposit_zklend
             – withdraw_zklend
