@@ -10,6 +10,7 @@ from web3.eth import AsyncEth
 from web3.exceptions import TransactionNotFound
 
 from config import RPC, ERC20_ABI
+from settings import FEE_MULTIPLIER
 
 
 class Account:
@@ -77,7 +78,7 @@ class Account:
 
     async def sign(self, transaction):
         gas = await self.w3.eth.estimate_gas(transaction)
-        gas = int(gas * 1.3)
+        gas = int(gas * FEE_MULTIPLIER)
 
         transaction.update({"gas": gas})
 

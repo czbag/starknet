@@ -8,7 +8,6 @@ from .starkswap import StarkSwap
 from .sithswap import SithSwap
 from .avnu import Avnu
 from .protoss import Protoss
-from .fibrous import Fibrous
 from .zklend import ZkLend
 from .starknet_id import StarknetId
 from .dmail import Dmail
