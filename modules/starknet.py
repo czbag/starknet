@@ -96,11 +96,11 @@ class Starknet:
 
         return address
 
-    def get_contract(self, contract_address: int, abi: Union[dict, None] = None):
+    def get_contract(self, contract_address: int, abi: Union[dict, None] = None, cairo_version: int = 0):
         if abi is None:
             abi = ERC20_ABI
 
-        contract = Contract(address=contract_address, abi=abi, provider=self.account)
+        contract = Contract(address=contract_address, abi=abi, provider=self.account, cairo_version=cairo_version)
 
         return contract
 
@@ -145,11 +145,12 @@ class Starknet:
 
         return amount_wei, amount, balance
 
-    async def sign_transaction(self, calls: List[Call]):
+    async def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
         transaction = await self.account.sign_invoke_transaction(
             calls=calls,
             auto_estimate=True,
-            nonce=await self.account.get_nonce()
+            nonce=await self.account.get_nonce(),
+            cairo_version=cairo_version
         )
 
         return transaction

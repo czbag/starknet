@@ -1,0 +1,14 @@
+[
+  {
+    "name": "cancel_orders",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order_nonces",
+        "type": "core::array::Array::<core::felt252>"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  }
+]

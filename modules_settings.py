@@ -16,8 +16,8 @@ async def deposit_starknet(_id, key, type_account, recipient):
 
     all_amount = True
 
-    min_percent = 2
-    max_percent = 5
+    min_percent = 500
+    max_percent = 500
 
     bridge = Bridge(_id, key, type_account, recipient)
     await bridge.deposit(min_amount, max_amount, decimal, all_amount, min_percent, max_percent)
@@ -385,8 +385,8 @@ async def swap_tokens(_id, key, type_account):
 
     tokens = ["USDC", "DAI"]
 
-    sleep_from = 15
-    sleep_to = 50
+    sleep_from = 200
+    sleep_to = 800
 
     slippage = 2
 
@@ -472,6 +472,16 @@ async def mint_starkverse(_id, key, type_account):
 async def create_collection_pyramid(_id, key, type_account):
     pyramid = Pyramid(_id, key, type_account)
     await pyramid.mint()
+
+
+async def cancel_order_unframed(_id, key, type_account):
+    unframed = Unframed(_id, key, type_account)
+    await unframed.cancel_order()
+
+
+async def cancel_order_flex(_id, key, type_account):
+    flex = Flex(_id, key, type_account)
+    await flex.cancel_order()
 
 
 def get_tx_count(type_account):
