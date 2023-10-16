@@ -54,9 +54,6 @@ with open('data/abi/pyramid/abi.json') as file:
 with open('data/abi/unframed/abi.json') as file:
     UNFRAMED_ABI = json.load(file)
 
-with open('data/abi/element/abi.json') as file:
-    ELEMENT_ABI = json.load(file)
-
 SPACESHARD_API = "https://starkgate.spaceshard.io/v1/gas-cost/"
 
 BRAAVOS_PROXY_CLASS_HASH = 0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e
