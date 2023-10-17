@@ -18,11 +18,14 @@ class Unframed(Starknet):
     async def cancel_order(self):
         logger.info(f"[{self._id}][{hex(self.address)}] Unframed cancel order")
 
-        random_nonce = "0x" + "".join(random.choice(hexdigits[:-6]) for _ in range(63))
+        random_nonce = random.randint(
+            296313738189912513306030367211954909183182558840765666364410788857347237284,
+            3618502788666131213697322783095070105623107215331596699973092056135872020480
+        )
 
         contract = self.get_contract(UNFRAMED_CONTRACT, UNFRAMED_ABI, 1)
 
-        unframed_call = contract.functions["cancel_orders"].prepare(order_nonces=random_nonce)
+        unframed_call = contract.functions["cancel_orders"].prepare(order_nonces=[random_nonce])
 
         transaction = await self.sign_transaction([unframed_call], 1)
 
