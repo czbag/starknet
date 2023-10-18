@@ -124,6 +124,8 @@ async def main(module):
 if __name__ == '__main__':
     print("❤️ Subscribe to me – https://t.me/sybilwave\n")
 
+    update_run_accounts(0, "new")
+
     module = get_module()
     if module == "tx_checker":
         get_tx_count(TYPE_WALLET)
