@@ -54,6 +54,9 @@ with open('data/abi/pyramid/abi.json') as file:
 with open('data/abi/unframed/abi.json') as file:
     UNFRAMED_ABI = json.load(file)
 
+with open('data/abi/starkstars/abi.json') as file:
+    STARKSTARS_ABI = json.load(file)
+
 SPACESHARD_API = "https://starkgate.spaceshard.io/v1/gas-cost/"
 
 BRAAVOS_PROXY_CLASS_HASH = 0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e
@@ -93,7 +96,7 @@ PROTOSS_CONTRACT = 0x07a0922657e550ba1ef76531454cb6d203d4d168153a0f05671492982c2
 
 AVNU_CONTRACT = {
     "router": 0x04270219d365d6b017231b52e92b3fb5d7c8378b05e9abc97724537a80e93b0f,
-    "use_ref": True  # If you use True, you support me 1% of the transaction amount
+    "use_ref": False  # If you use True, you support me 1% of the transaction amount
 }
 
 ZKLEND_CONCTRACTS = {

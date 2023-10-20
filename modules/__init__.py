@@ -11,6 +11,7 @@ from .protoss import Protoss
 from .zklend import ZkLend
 from .starknet_id import StarknetId
 from .dmail import Dmail
+from .starkstars import StarkStars
 from .starkverse import StarkVerse
 from .pyramid import Pyramid
 from .unframed import Unframed
