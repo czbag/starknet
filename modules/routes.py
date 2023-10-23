@@ -25,6 +25,10 @@ class Routes(Starknet):
 
             module = random.choice(module) if type(module) is list else module
 
+            if module is None:
+                logger.info(f"[{self._id}][{self.address}] Skip module")
+                continue
+
             await module(self._id, self.private_key, self.type_account)
 
             await sleep(sleep_from, sleep_to)

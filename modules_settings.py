@@ -233,11 +233,11 @@ async def swap_protoss(_id, key, type_account):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_token = "USDT"
-    to_token = "ETH"
+    from_token = "USDC"
+    to_token = "USDT"
 
-    min_amount = 0.001
-    max_amount = 0.002
+    min_amount = 0.03
+    max_amount = 0.03
     decimal = 6
     slippage = 1
 
@@ -285,6 +285,39 @@ async def deposit_zklend(_id, key, type_account):
     )
 
 
+async def deposit_nostra(_id, key, type_account):
+    """
+    Make deposit on Nostra
+    ______________________________________________________
+    use_token – random choice token for deposit ["ETH", "DAI", "USDC", "USDT"], you can use only one token ["ETH"]
+    make_withdraw - True, if need withdraw after deposit
+
+    all_amount - deposit from min_percent to max_percent
+    """
+
+    use_token = ["DAI"]
+
+    min_amount = 0.0001
+    max_amount = 0.0002
+    decimal = 5
+
+    sleep_from = 20
+    sleep_to = 120
+
+    make_withdraw = True
+
+    all_amount = True
+
+    min_percent = 10
+    max_percent = 50
+
+    zklend = Nostra(_id, key, type_account)
+    await zklend.deposit(
+        use_token, min_amount, max_amount, decimal, sleep_from,
+        sleep_to, make_withdraw, all_amount, min_percent, max_percent
+    )
+
+
 async def withdraw_zklend(_id, key, type_account):
     """
     Make withdraw from ZkLend
@@ -295,6 +328,19 @@ async def withdraw_zklend(_id, key, type_account):
     use_token = ["ETH", "DAI", "USDC"]
 
     zklend = ZkLend(_id, key, type_account)
+    await zklend.withdraw_all(use_token)
+
+
+async def withdraw_nostra(_id, key, type_account):
+    """
+    Make withdraw from Nostra
+    ______________________________________________________
+    use_token – random choice token for withdraw ["ETH", "DAI", "USDC", "USDT"], you can use only one token ["ETH"]
+    """
+
+    use_token = ["ETH"]
+
+    zklend = Nostra(_id, key, type_account)
     await zklend.withdraw_all(use_token)
 
 
@@ -454,7 +500,9 @@ async def custom_routes(account_id, key, type_account):
             – swap_avnu
         LANDING:
             – deposit_zklend
+            – deposit_nostra
             – withdraw_zklend
+            – withdraw_nostra
             – enable_collateral_zklend
             – disable_collateral_zklend
         NFT/DOMAIN:
@@ -470,9 +518,11 @@ async def custom_routes(account_id, key, type_account):
         Disclaimer - You can add modules to [] to select random ones,
         example [module_1, module_2, [module_3, module_4], module 5]
         The script will start with module 1, 2, 5 and select a random one from module 3 and 4
+
+        You can also specify None in [], and if None is selected by random, this module will be skipped
         """
 
-    use_modules = [deposit_zklend, deposit_zklend, deposit_zklend, deposit_zklend]
+    use_modules = [deposit_zklend, deposit_zklend, [deposit_zklend, deposit_zklend, None]]
 
     sleep_from = 1
     sleep_to = 3

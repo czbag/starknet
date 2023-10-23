@@ -42,6 +42,9 @@ with open('data/abi/protoss/abi.json') as file:
 with open('data/abi/zklend/abi.json') as file:
     ZKLEND_ABI = json.load(file)
 
+with open('data/abi/nostra/abi.json') as file:
+    NOSTRA_ABI = json.load(file)
+
 with open('data/abi/dmail/abi.json') as file:
     DMAIL_ABI = json.load(file)
 
@@ -96,7 +99,7 @@ PROTOSS_CONTRACT = 0x07a0922657e550ba1ef76531454cb6d203d4d168153a0f05671492982c2
 
 AVNU_CONTRACT = {
     "router": 0x04270219d365d6b017231b52e92b3fb5d7c8378b05e9abc97724537a80e93b0f,
-    "use_ref": False  # If you use True, you support me 1% of the transaction amount
+    "use_ref": True  # If you use True, you support me 1% of the transaction amount
 }
 
 ZKLEND_CONCTRACTS = {
@@ -105,6 +108,13 @@ ZKLEND_CONCTRACTS = {
     "USDC": 0x047ad51726d891f972e74e4ad858a261b43869f7126ce7436ee0b2529a98f486,
     "DAI": 0x062fa7afe1ca2992f8d8015385a279f49fad36299754fb1e9866f4f052289376,
     "USDT": 0x00811d8da5dc8a2206ea7fd0b28627c2d77280a515126e62baa4d78e22714c4a
+}
+
+NOSTRA_CONTRACTS = {
+    "ETH": 0x07170f54dd61ae85377f75131359e3f4a12677589bb7ec5d61f362915a5c0982,
+    "USDC": 0x06eda767a143da12f70947192cd13ee0ccc077829002412570a88cd6539c1d85,
+    "DAI": 0x04f18ffc850cdfa223a530d7246d3c6fc12a5969e0aa5d4a88f470f5fe6c46e9,
+    "USDT": 0x0453c4c996f1047d9370f824d68145bd5e7ce12d00437140ad02181e1d11dc83,
 }
 
 DMAIL_CONTRACT = 0x0454f0bd015e730e5adbb4f080b075fdbf55654ff41ee336203aa2e1ac4d4309

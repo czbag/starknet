@@ -9,6 +9,7 @@ from .sithswap import SithSwap
 from .avnu import Avnu
 from .protoss import Protoss
 from .zklend import ZkLend
+from .nostra import Nostra
 from .starknet_id import StarknetId
 from .dmail import Dmail
 from .starkstars import StarkStars
