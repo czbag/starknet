@@ -37,10 +37,17 @@ class Transfer(Starknet):
 
         contract = self.get_contract(STARKNET_TOKENS["ETH"])
 
-        transfer_call = contract.functions["transfer"].prepare(int(self.recipient, 16), amount_wei)
+        balance = await self.get_balance(STARKNET_TOKENS["ETH"])
 
-        transaction = await self.sign_transaction([transfer_call])
+        if amount_wei < balance["balance_wei"]:
+            transfer_call = contract.functions["transfer"].prepare(int(self.recipient, 16), amount_wei)
 
-        transaction_response = await self.send_transaction(transaction)
+            transaction = await self.sign_transaction([transfer_call])
 
-        await self.wait_until_tx_finished(transaction_response.transaction_hash)
+            transaction_response = await self.send_transaction(transaction)
+
+            await self.wait_until_tx_finished(transaction_response.transaction_hash)
+        else:
+            logger.error(
+                f"[{self._id}][{hex(self.address)}] Don't have money for transfer | balance: {balance['balance_wei']}"
+            )

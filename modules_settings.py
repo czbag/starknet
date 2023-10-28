@@ -510,6 +510,7 @@ async def custom_routes(account_id, key, type_account):
             – mint_starknet_id
             – mint_starkverse
         ANOTHER:
+            – deploy_argent
             – send_mail_dmail
             – swap_tokens
             – swap_multiswap
@@ -565,6 +566,11 @@ async def cancel_order_unframed(_id, key, type_account):
 async def cancel_order_flex(_id, key, type_account):
     flex = Flex(_id, key, type_account)
     await flex.cancel_order()
+
+
+async def deploy_argent(_id, key, type_account):
+    starknet = Starknet(_id, key, type_account)
+    await starknet.deploy_argent()
 
 
 def get_tx_count(type_account):

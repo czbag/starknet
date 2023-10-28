@@ -213,3 +213,23 @@ class Starknet:
         transaction_response = await self.send_transaction(transaction)
 
         await self.wait_until_tx_finished(transaction_response.transaction_hash)
+
+    @retry
+    @check_gas("starknet")
+    async def deploy_argent(self):
+        logger.info(f"[{self._id}][{hex(self.address)}] Deploy argent account")
+
+        class_hash = ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW
+
+        transaction = await self.account.deploy_account(
+            address=self.address,
+            class_hash=class_hash,
+            salt=self.key_pair.public_key,
+            key_pair=self.key_pair,
+            client=self.client,
+            chain=StarknetChainId.MAINNET,
+            constructor_calldata=[self.key_pair.public_key, 0],
+            auto_estimate=True
+        )
+
+        await self.wait_until_tx_finished(transaction.transaction_hash)
