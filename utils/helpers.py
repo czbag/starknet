@@ -1,7 +1,10 @@
+import math
+
 from loguru import logger
 
 from settings import RETRY_COUNT
 from utils.sleeping import sleep
+
 
 
 def retry(func):
@@ -17,3 +20,8 @@ def retry(func):
                 retries += 1
 
     return wrapper
+
+def floor(number, digits):
+    if number is None:
+        return None
+    return math.floor(float(number) * math.pow(10, digits)) / math.pow(10, digits)
