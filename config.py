@@ -57,6 +57,9 @@ with open('data/abi/pyramid/abi.json') as file:
 with open('data/abi/unframed/abi.json') as file:
     UNFRAMED_ABI = json.load(file)
 
+with open('data/abi/flex/abi.json') as file:
+    FLEX_ABI = json.load(file)
+
 with open('data/abi/starkstars/abi.json') as file:
     STARKSTARS_ABI = json.load(file)
 
@@ -120,8 +123,6 @@ NOSTRA_CONTRACTS = {
 DMAIL_CONTRACT = 0x0454f0bd015e730e5adbb4f080b075fdbf55654ff41ee336203aa2e1ac4d4309
 
 STARKNET_ID_CONTRACT = 0x05dbdedc203e92749e2e746e2d40a768d966bd243df04a6b712e222bc040a9af
-
-STARKVERSE_CONTRACT = 0x060582df2cd4ad2c988b11fdede5c43f56a432e895df255ccd1af129160044b8
 
 PYRAMID_CONTRACT = 0x042e7815d9e90b7ea53f4550f74dc12207ed6a0faaef57ba0dbf9a66f3762d82
 

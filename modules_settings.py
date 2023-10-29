@@ -202,8 +202,8 @@ async def swap_sithswap(_id, key, type_account):
     all_amount - swap from min_percent to max_percent
     """
 
-    from_token = "ETH"
-    to_token = "USDT"
+    from_token = "USDT"
+    to_token = "ETH"
 
     min_amount = 0.001
     max_amount = 0.002
@@ -212,8 +212,8 @@ async def swap_sithswap(_id, key, type_account):
 
     all_amount = True
 
-    min_percent = 5
-    max_percent = 10
+    min_percent = 100
+    max_percent = 100
 
     sithswap = SithSwap(_id, key, type_account)
     await sithswap.swap(
@@ -295,7 +295,7 @@ async def deposit_nostra(_id, key, type_account):
     all_amount - deposit from min_percent to max_percent
     """
 
-    use_token = ["DAI"]
+    use_token = ["ETH"]
 
     min_amount = 0.0001
     max_amount = 0.0002
@@ -508,7 +508,6 @@ async def custom_routes(account_id, key, type_account):
         NFT/DOMAIN:
             – mint_starkstars
             – mint_starknet_id
-            – mint_starkverse
         ANOTHER:
             – deploy_argent
             – send_mail_dmail
@@ -523,7 +522,7 @@ async def custom_routes(account_id, key, type_account):
         You can also specify None in [], and if None is selected by random, this module will be skipped
         """
 
-    use_modules = [deposit_zklend, deposit_zklend, [deposit_zklend, deposit_zklend, None]]
+    use_modules = [deposit_zklend, deposit_nostra]
 
     sleep_from = 1
     sleep_to = 3
@@ -546,11 +545,6 @@ async def mint_starknet_id(_id, key, type_account):
 async def send_mail_dmail(_id, key, type_account):
     dmail = Dmail(_id, key, type_account)
     await dmail.send_mail()
-
-
-async def mint_starkverse(_id, key, type_account):
-    starkverse = StarkVerse(_id, key, type_account)
-    await starkverse.mint()
 
 
 async def create_collection_pyramid(_id, key, type_account):

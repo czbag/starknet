@@ -1,16 +1,25 @@
 import asyncio
 import random
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Union
 
 import questionary
-from loguru import logger
 from questionary import Choice
 
 from config import ACCOUNTS, RECIPIENTS
-from utils.helpers import get_run_accounts, update_run_accounts
+from utils.sleeping import sleep
 from modules_settings import *
-from settings import TYPE_WALLET, RANDOM_WALLET, SLEEP_FROM, SLEEP_TO, QUANTITY_RUN_ACCOUNTS
+from settings import (
+    TYPE_WALLET,
+    RANDOM_WALLET,
+    SLEEP_FROM,
+    SLEEP_TO,
+    QUANTITY_THREADS,
+    THREAD_SLEEP_FROM,
+    THREAD_SLEEP_TO
+)
 
 
 def get_module():
@@ -36,16 +45,15 @@ def get_module():
             Choice("17) Mint Starknet ID", mint_starknet_id),
             Choice("18) Dmail send mail", send_mail_dmail),
             Choice("19) Mint StarkStars NFT", mint_starkstars),
-            Choice("20) Mint StarkVerse NFT", mint_starkverse),
-            Choice("21) Mint NFT on Pyramid", create_collection_pyramid),
-            Choice("22) Unframed", cancel_order_unframed),
-            Choice("23) Flex", cancel_order_flex),
-            Choice("24) Transfer", make_transfer),
-            Choice("25) Swap tokens to ETH", swap_tokens),
-            Choice("26) Use Multiswap", swap_multiswap),
-            Choice("27) Use custom routes ", custom_routes),
-            Choice("28) Check transaction count", "tx_checker"),
-            Choice("29) Exit", "exit"),
+            Choice("20) Mint NFT on Pyramid", create_collection_pyramid),
+            Choice("21) Unframed", cancel_order_unframed),
+            Choice("22) Flex", cancel_order_flex),
+            Choice("23) Transfer", make_transfer),
+            Choice("24) Swap tokens to ETH", swap_tokens),
+            Choice("25) Use Multiswap", swap_multiswap),
+            Choice("26) Use custom routes ", custom_routes),
+            Choice("27) Check transaction count", "tx_checker"),
+            Choice("28) Exit", "exit"),
         ],
         qmark="⚙️ ",
         pointer="✅ "
@@ -79,62 +87,48 @@ def get_wallets(use_recipients: bool = False):
     return wallets
 
 
-async def run_module(module, account_id, key, sleep_time, start_id, recipient: Union[str, None] = None):
-    if start_id != 1:
-        await asyncio.sleep(sleep_time)
+async def run_module(module, account_id, key, recipient: Union[str, None] = None):
+    if recipient:
+        await module(account_id, key, TYPE_WALLET, recipient)
+    else:
+        await module(account_id, key, TYPE_WALLET)
 
-    while True:
-        run_accounts = get_run_accounts()
-
-        if len(run_accounts["accounts"]) < QUANTITY_RUN_ACCOUNTS:
-            update_run_accounts(account_id, "add")
-
-            if recipient:
-                await module(account_id, key, TYPE_WALLET, recipient)
-            else:
-                await module(account_id, key, TYPE_WALLET)
-
-            update_run_accounts(account_id, "remove")
-
-            break
-        else:
-            logger.info(f'Current run accounts: {len(run_accounts["accounts"])}')
-            await asyncio.sleep(60)
+    await sleep(SLEEP_FROM, SLEEP_TO)
 
 
-async def main(module):
+def _async_run_module(module, account_id, key, recipient):
+    asyncio.run(run_module(module, account_id, key, recipient))
+
+
+def main(module):
     if module in [deposit_starknet, withdraw_starknet, bridge_orbiter, make_transfer]:
         wallets = get_wallets(True)
     else:
         wallets = get_wallets()
 
-    tasks = []
-
-    sleep_time = random.randint(SLEEP_FROM, SLEEP_TO)
-
     if RANDOM_WALLET:
         random.shuffle(wallets)
 
-    for _, account in enumerate(wallets, start=1):
-        tasks.append(asyncio.create_task(
-            run_module(module, account.get("id"), account.get("key"), sleep_time, _, account.get("recipient", None))
-        ))
-
-        sleep_time += random.randint(SLEEP_FROM, SLEEP_TO)
-
-    await asyncio.gather(*tasks)
+    with ThreadPoolExecutor(max_workers=QUANTITY_THREADS) as executor:
+        for _, account in enumerate(wallets, start=1):
+            executor.submit(
+                _async_run_module,
+                module,
+                account.get("id"),
+                account.get("key"),
+                account.get("recipient", None)
+            )
+            time.sleep(random.randint(THREAD_SLEEP_FROM, THREAD_SLEEP_TO))
 
 
 if __name__ == '__main__':
     print("❤️ Subscribe to me – https://t.me/sybilwave\n")
 
-    update_run_accounts(0, "new")
-
     module = get_module()
     if module == "tx_checker":
         get_tx_count(TYPE_WALLET)
     else:
-        asyncio.run(main(module))
+        main(module)
 
     print("\n❤️ Subscribe to me – https://t.me/sybilwave\n")
     print("🤑 Donate me: 0x00000b0ddce0bfda4531542ad1f2f5fad7b9cde9")

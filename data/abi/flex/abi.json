@@ -1,0 +1,13 @@
+[
+  {
+    "name": "cancelMakerOrder",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "orderNonce",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  }
+]

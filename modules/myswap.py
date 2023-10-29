@@ -11,6 +11,7 @@ class MySwap(Starknet):
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
 
         self.contract = self.get_contract(MYSWAP_CONTRACT, MYSWAP_ABI)
+
         self.pool_data = {
             "ETHUSDC": 1,
             "DAIETH": 2,

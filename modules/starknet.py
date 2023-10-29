@@ -145,12 +145,11 @@ class Starknet:
 
         return amount_wei, amount, balance
 
-    async def sign_transaction(self, calls: List[Call], cairo_version: int = 0):
+    async def sign_transaction(self, calls: List[Call]):
         transaction = await self.account.sign_invoke_transaction(
             calls=calls,
             auto_estimate=True,
             nonce=await self.account.get_nonce(),
-            cairo_version=cairo_version
         )
 
         return transaction
@@ -232,4 +231,4 @@ class Starknet:
             auto_estimate=True
         )
 
-        await self.wait_until_tx_finished(transaction.transaction_hash)
+        await self.wait_until_tx_finished(transaction.hash)

@@ -2,19 +2,19 @@ import random
 from typing import List, Union
 
 from loguru import logger
-from starknet_py.hash.selector import get_selector_from_name
-from starknet_py.net.client_models import Call
 
 from utils.gas_checker import check_gas
 from utils.helpers import retry
 from utils.sleeping import sleep
 from . import Starknet
-from config import ZKLEND_CONCTRACTS, STARKNET_TOKENS
+from config import ZKLEND_CONCTRACTS, STARKNET_TOKENS, ZKLEND_ABI
 
 
 class ZkLend(Starknet):
     def __init__(self, _id: int, private_key: str, type_account: str) -> None:
         super().__init__(_id=_id, private_key=private_key, type_account=type_account)
+
+        self.contract = self.get_contract(ZKLEND_CONCTRACTS["router"], ZKLEND_ABI)
 
     async def get_deposit_amount(self, token: str):
         zklend_contract = self.get_contract(ZKLEND_CONCTRACTS[token])
@@ -62,10 +62,9 @@ class ZkLend(Starknet):
             amount_wei
         )
 
-        deposit_call = Call(
-            to_addr=ZKLEND_CONCTRACTS["router"],
-            selector=get_selector_from_name("deposit"),
-            calldata=[STARKNET_TOKENS[token], amount_wei],
+        deposit_call = self.contract.functions["deposit"].prepare(
+            STARKNET_TOKENS[token],
+            amount_wei
         )
 
         transaction = await self.sign_transaction([approve_call, deposit_call])
@@ -91,10 +90,8 @@ class ZkLend(Starknet):
         )
 
         if amount > 0:
-            withdraw_all_call = Call(
-                to_addr=ZKLEND_CONCTRACTS["router"],
-                selector=get_selector_from_name("withdraw_all"),
-                calldata=[STARKNET_TOKENS[token]],
+            withdraw_all_call = self.contract.functions["withdraw_all"].prepare(
+                STARKNET_TOKENS[token]
             )
 
             transaction = await self.sign_transaction([withdraw_all_call])
@@ -112,10 +109,8 @@ class ZkLend(Starknet):
 
         logger.info(f"[{self._id}][{hex(self.address)}] Make enable collateral {token} for ZkLend")
 
-        enable_collateral_call = Call(
-            to_addr=ZKLEND_CONCTRACTS["router"],
-            selector=get_selector_from_name("enable_collateral"),
-            calldata=[STARKNET_TOKENS[token]],
+        enable_collateral_call = self.contract.functions["enable_collateral"].prepare(
+            STARKNET_TOKENS[token]
         )
 
         transaction = await self.sign_transaction([enable_collateral_call])
@@ -131,10 +126,8 @@ class ZkLend(Starknet):
 
         logger.info(f"[{self._id}][{hex(self.address)}] Make disable collateral {token} for ZkLend")
 
-        disable_collateral_call = Call(
-            to_addr=ZKLEND_CONCTRACTS["router"],
-            selector=get_selector_from_name("disable_collateral"),
-            calldata=[STARKNET_TOKENS[token]],
+        disable_collateral_call = self.contract.functions["disable_collateral"].prepare(
+            STARKNET_TOKENS[token]
         )
 
         transaction = await self.sign_transaction([disable_collateral_call])

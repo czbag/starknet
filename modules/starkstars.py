@@ -2,14 +2,12 @@ import random
 from typing import List
 
 from loguru import logger
-from starknet_py.hash.selector import get_selector_from_name
-from starknet_py.net.client_models import Call
 
 from utils.gas_checker import check_gas
 from utils.helpers import retry
 from utils.sleeping import sleep
 from . import Starknet
-from config import STARKVERSE_CONTRACT, STARKNET_TOKENS, STARKSTARS_ABI
+from config import STARKNET_TOKENS, STARKSTARS_ABI
 
 
 class StarkStars(Starknet):

@@ -69,7 +69,7 @@ class SithSwap(Starknet):
             amount_wei
         )
 
-        swap_call = self.contract.functions["swapExactTokensForTokensSupportingFeeOnTransferTokens"].prepare(
+        swap_call = self.contract.functions["swapExactTokensForTokens"].prepare(
             amount_wei,
             min_amount_out,
             route,

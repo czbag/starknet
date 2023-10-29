@@ -1,5 +1,4 @@
 import random
-from string import hexdigits
 
 from loguru import logger
 
@@ -27,7 +26,7 @@ class Unframed(Starknet):
 
         unframed_call = contract.functions["cancel_orders"].prepare(order_nonces=[random_nonce])
 
-        transaction = await self.sign_transaction([unframed_call], 1)
+        transaction = await self.sign_transaction([unframed_call])
 
         transaction_response = await self.send_transaction(transaction)
 
