@@ -23,7 +23,7 @@ class Dmail(Starknet):
         email_address = sha256(str(1e10 * random.random()).encode()).hexdigest()
         theme = sha256(str(1e10 * random.random()).encode()).hexdigest()
 
-        dmail_call = self.contract.functions["transaction"].prepare(email_address[0:32], theme[0:32])
+        dmail_call = self.contract.functions["transaction"].prepare(email_address[0:31], theme[0:31])
 
         transaction = await self.sign_transaction([dmail_call])
 
