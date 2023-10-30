@@ -520,6 +520,9 @@ async def custom_routes(account_id, key, type_account):
         The script will start with module 1, 2, 5 and select a random one from module 3 and 4
 
         You can also specify None in [], and if None is selected by random, this module will be skipped
+
+        You can also specify () to perform the desired action a certain number of times
+        example (send_mail, 1, 10) run this module 1 to 10 times
         """
 
     use_modules = [deposit_zklend, deposit_nostra]
