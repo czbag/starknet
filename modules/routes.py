@@ -34,6 +34,6 @@ class Routes(Starknet):
                 logger.info(f"[{self._id}][{self.address}] Skip module")
                 continue
 
-            await module(self._id, self.private_key)
+            await module(self._id, self.private_key, self.type_account)
 
             await sleep(sleep_from, sleep_to)
