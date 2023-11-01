@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://i.imgur.com/tqA3f3O.png"  />
-  <h1>ZkSync Soft</h1>
+  <img src="https://i.imgur.com/XBGxKsN.png"  />
+  <h1>Starknet Soft</h1>
   <p>A script designed to simplify your interaction with Starknet. It provides a wide range of features that will make it easier for you to work with Starknet, simplify the management of your farm, and allow you to perform a variety of operations on the network.</p>
 </div>
 
