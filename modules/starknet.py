@@ -30,7 +30,8 @@ from config import (
     WITHDRAW_ABI,
     RPC,
     ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
-    BRIDGE_CONTRACTS
+    BRIDGE_CONTRACTS,
+    ARGENT_ABI
 )
 from utils.gas_checker import check_gas
 from utils.helpers import retry
@@ -232,3 +233,27 @@ class Starknet:
         )
 
         await self.wait_until_tx_finished(transaction.hash)
+
+    @retry
+    @check_gas("starknet")
+    async def upgrade_argent(self):
+        class_hash = ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW
+
+        contract = self.get_contract(self.address, ARGENT_ABI)
+
+        account_version = await contract.functions["getVersion"].call()
+
+        version = bytes.fromhex(hex(account_version.as_tuple()[0])[2:]).decode("utf8")
+
+        if version == "0.2.3":
+            logger.info(f"[{self._id}][{hex(self.address)}] Upgrade account to cairo 1")
+
+            upgrade_call = contract.functions["upgrade"].prepare(class_hash, [0])
+
+            transaction = await self.sign_transaction([upgrade_call])
+
+            transaction_response = await self.send_transaction(transaction)
+
+            await self.wait_until_tx_finished(transaction_response.transaction_hash)
+        else:
+            logger.info(f"[{self._id}][{hex(self.address)}] No upgrade required")

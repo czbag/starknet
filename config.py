@@ -12,6 +12,9 @@ with open("recipients.txt", "r") as file:
 with open('data/abi/erc20_abi.json') as file:
     ERC20_ABI = json.load(file)
 
+with open('data/abi/abi.json') as file:
+    ARGENT_ABI = json.load(file)
+
 with open('data/abi/bridge/deposit_abi.json') as file:
     DEPOSIT_ABI = json.load(file)
 

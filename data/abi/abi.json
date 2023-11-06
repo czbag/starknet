@@ -1,0 +1,42 @@
+[
+  {
+    "name": "upgrade",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "implementation",
+        "type": "felt"
+      },
+      {
+        "name": "calldata_len",
+        "type": "felt"
+      },
+      {
+        "name": "calldata",
+        "type": "felt*"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "retdata_len",
+        "type": "felt"
+      },
+      {
+        "name": "retdata",
+        "type": "felt*"
+      }
+    ]
+  },
+  {
+    "name": "getVersion",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "version",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  }
+]
