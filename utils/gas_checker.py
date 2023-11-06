@@ -10,6 +10,7 @@ from settings import CHECK_GWEI, MAX_GWEI
 from loguru import logger
 
 from utils.sleeping import sleep
+from utils.helpers import floor
 
 
 async def get_gas():
@@ -31,10 +32,10 @@ async def wait_gas_ethereum():
         gas = await get_gas()
 
         if gas > MAX_GWEI:
-            logger.info(f'Current GWEI: {gas} > {MAX_GWEI}')
+            logger.info(f'Current GWEI: {floor(gas,2)} > {MAX_GWEI}')
             await sleep(60, 70)
         else:
-            logger.success(f"GWEI is normal | current: {gas} < {MAX_GWEI}")
+            logger.success(f"GWEI is normal | current: {floor(gas,2)} < {MAX_GWEI}")
             break
 
 
@@ -48,10 +49,10 @@ async def wait_gas_starknet():
         gas = Web3.from_wei(block_data.gas_price, "gwei")
 
         if gas > MAX_GWEI:
-            logger.info(f'Current GWEI: {gas} > {MAX_GWEI}')
+            logger.info(f'Current GWEI: {floor(gas,2)} > {MAX_GWEI}')
             await sleep(60, 70)
         else:
-            logger.success(f"GWEI is normal | current: {gas} < {MAX_GWEI}")
+            logger.success(f"GWEI is normal | current: {floor(gas,2)} < {MAX_GWEI}")
             break
 
 

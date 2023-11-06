@@ -56,23 +56,32 @@ class Account:
 
         return amount_wei, amount, balance
 
-    async def wait_until_tx_finished(self, tx_hash: HexBytes, max_wait_time=180):
+    async def wait_until_tx_finished(self, hash, max_wait_time=180):
         start_time = time.time()
         while True:
             try:
-                receipts = await self.w3.eth.get_transaction_receipt(tx_hash)
+                receipts = await self.w3.eth.get_transaction_receipt(hash)
                 status = receipts.get("status")
                 if status == 1:
-                    logger.success(f"[{self._id}][{self.address}] {self.explorer}{tx_hash.hex()} successfully!")
+                    if not isinstance(hash, str):
+                        hash = str(hash.hex())
+                    logger.success(f"[{self.account_id}][{self.address}] {self.explorer}{hash} successfully!")
                     return True
                 elif status is None:
-                    await asyncio.sleep(1)
+                    if time.time() - start_time > max_wait_time:
+                        return False
+                    await asyncio.sleep(0.3)
                 else:
-                    logger.error(f"[{self._id}][{self.address}] {self.explorer}{tx_hash.hex()} transaction failed!")
+                    if not isinstance(hash, str):
+                        hash = str(hash.hex())
+                    logger.error(f"[{self.account_id}][{self.address}] {self.explorer}{hash} transaction failed!")
                     return False
             except TransactionNotFound:
+                if not isinstance(hash, str):
+                    hash = str(hash.hex())
                 if time.time() - start_time > max_wait_time:
-                    print(f'FAILED TX: {tx_hash.hex()}')
+                    logger.error(
+                        f"[{self.account_id}][{self.address}] {self.explorer}{hash} transaction not found -> failed!")
                     return False
                 await asyncio.sleep(1)
 
