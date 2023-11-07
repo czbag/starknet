@@ -165,6 +165,11 @@ class Starknet:
 
         logger.success(f"[{self._id}][{hex(self.address)}] {self.explorer}{hex(tx_hash)} successfully!")
 
+    async def get_transaction(self, tx_hash: int):
+        transaction_data = await self.account.client.get_transaction_receipt(tx_hash)
+
+        return transaction_data
+
     @retry
     @check_gas("starknet")
     async def withdraw(

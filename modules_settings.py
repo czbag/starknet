@@ -412,6 +412,18 @@ async def disable_collateral_zklend(_id, key, type_account):
     await zklend.disable_collateral(use_token)
 
 
+async def deploy_nft(_id, key, type_account):
+    """
+    Deploy and mint NFTon StarkGuardians
+    """
+
+    sleep_from = 10
+    sleep_to = 20
+
+    stark_guardians = StarkGuardians(_id, key, type_account)
+    await stark_guardians.deploy_nft(sleep_from, sleep_to)
+
+
 async def make_transfer(_id, key, type_account, recipient):
     """
     Transfer ETH
@@ -511,6 +523,8 @@ async def custom_routes(account_id, key, type_account):
         ANOTHER:
             – deploy_argent
             – send_mail_dmail
+            – deploy_token
+            – deploy_nft
             – swap_tokens
             – swap_multiswap
             – make_transfer
@@ -563,6 +577,11 @@ async def cancel_order_unframed(_id, key, type_account):
 async def cancel_order_flex(_id, key, type_account):
     flex = Flex(_id, key, type_account)
     await flex.cancel_order()
+
+
+async def deploy_token(_id, key, type_account):
+    stark_guardians = StarkGuardians(_id, key, type_account)
+    await stark_guardians.deploy_token()
 
 
 async def deploy_argent(_id, key, type_account):

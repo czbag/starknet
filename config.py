@@ -66,6 +66,9 @@ with open('data/abi/flex/abi.json') as file:
 with open('data/abi/starkstars/abi.json') as file:
     STARKSTARS_ABI = json.load(file)
 
+with open('data/abi/starkguardians/abi.json') as file:
+    STARKGUARDIANS_ABI = json.load(file)
+
 SPACESHARD_API = "https://starkgate.spaceshard.io/v1/gas-cost/"
 
 BRAAVOS_PROXY_CLASS_HASH = 0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e
@@ -132,3 +135,5 @@ PYRAMID_CONTRACT = 0x042e7815d9e90b7ea53f4550f74dc12207ed6a0faaef57ba0dbf9a66f37
 UNFRAMED_CONTRACT = 0x051734077ba7baf5765896c56ce10b389d80cdcee8622e23c0556fb49e82df1b
 
 FLEX_CONTRACT = 0x04b1b3fdf34d00288a7956e6342fb366a1510a9387d321c87f3301d990ac19d4
+
+STARKGUARDIANS_CONTRACT = 0x041a78e741e5af2fec34b695679bc6891742439f7afb8484ecd7766661ad02bf

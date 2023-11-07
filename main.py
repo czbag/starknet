@@ -9,6 +9,7 @@ import questionary
 from questionary import Choice
 
 from config import ACCOUNTS, RECIPIENTS
+from utils.helpers import remove_wallet
 from utils.sleeping import sleep
 from modules_settings import *
 from settings import (
@@ -18,7 +19,7 @@ from settings import (
     SLEEP_TO,
     QUANTITY_THREADS,
     THREAD_SLEEP_FROM,
-    THREAD_SLEEP_TO
+    THREAD_SLEEP_TO, REMOVE_WALLET
 )
 
 
@@ -49,12 +50,14 @@ def get_module():
             Choice("21) Mint NFT on Pyramid", create_collection_pyramid),
             Choice("22) Unframed", cancel_order_unframed),
             Choice("23) Flex", cancel_order_flex),
-            Choice("24) Transfer", make_transfer),
-            Choice("25) Swap tokens to ETH", swap_tokens),
-            Choice("26) Use Multiswap", swap_multiswap),
-            Choice("27) Use custom routes ", custom_routes),
-            Choice("28) Check transaction count", "tx_checker"),
-            Choice("29) Exit", "exit"),
+            Choice("24) Deploy token", deploy_token),
+            Choice("25) Deploy and mint NFT", deploy_nft),
+            Choice("26) Transfer", make_transfer),
+            Choice("27) Swap tokens to ETH", swap_tokens),
+            Choice("28) Use Multiswap", swap_multiswap),
+            Choice("29) Use custom routes ", custom_routes),
+            Choice("30) Check transaction count", "tx_checker"),
+            Choice("31) Exit", "exit"),
         ],
         qmark="⚙️ ",
         pointer="✅ "
@@ -93,6 +96,9 @@ async def run_module(module, account_id, key, recipient: Union[str, None] = None
         await module(account_id, key, TYPE_WALLET, recipient)
     else:
         await module(account_id, key, TYPE_WALLET)
+
+    if REMOVE_WALLET:
+        remove_wallet(key, recipient)
 
     await sleep(SLEEP_FROM, SLEEP_TO)
 
