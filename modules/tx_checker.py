@@ -9,9 +9,12 @@ from config import ACCOUNTS
 
 
 async def get_nonce(account: Starknet):
-    nonce = await account.account.get_nonce()
+    try:
+        nonce = await account.account.get_nonce()
 
-    return nonce
+        return nonce
+    except:
+        await get_nonce(account)
 
 
 async def check_tx(type_account: str):

@@ -30,57 +30,41 @@ class Multiswap(Starknet):
     async def swap(
             self,
             use_dex: list,
+            use_tokens: list,
             sleep_from: int,
             sleep_to: int,
             min_swap: int,
             max_swap: int,
             slippage: int,
-            random_swap_token: bool,
             min_percent: int,
             max_percent: int
     ):
         quantity_swap = random.randint(min_swap, max_swap)
 
-        if random_swap_token:
-            balance = await self.get_balance(STARKNET_TOKENS["USDC"])
-            path = [random.choice(["ETH", "USDC"]) for _ in range(0, quantity_swap)]
-            if path[0] == "USDC" and balance["balance"] <= 1:
-                path[0] = "ETH"
-        else:
-            path = ["ETH" if _ % 2 == 0 else "USDC" for _ in range(0, quantity_swap)]
-
         logger.info(f"[{self._id}][{hex(self.address)}] Start MultiSwap | quantity swaps: {quantity_swap}")
 
-        for _, token in enumerate(path, start=1):
-            if token == "ETH":
-                decimal = 6
-                to_token = "USDC"
+        tokens_data = [
+            balance["symbol"] for balance in
+            [await self.get_balance(STARKNET_TOKENS[token]) for token in use_tokens]
+            if balance["balance"] != 0
+        ]
 
-                balance = await self.account.get_balance()
-
-                min_amount = float(Web3.from_wei(int(balance / 100 * min_percent), "ether"))
-                max_amount = float(Web3.from_wei(int(balance / 100 * max_percent), "ether"))
-            else:
-                decimal = 18
-                to_token = "ETH"
-
-                balance = await self.get_balance(STARKNET_TOKENS["USDC"])
-
-                min_amount = balance["balance"] if balance["balance"] <= 1 else balance["balance"] / 100 * min_percent
-                max_amount = balance["balance"] if balance["balance"] <= 1 else balance["balance"] / 100 * max_percent
+        for _ in range(quantity_swap):
+            from_token = "ETH" if len(tokens_data) == 0 else random.choice(["ETH", *tokens_data])
+            to_token = random.choice([token for token in ["ETH", *use_tokens] if token != from_token])
 
             swap_module = self.get_swap_module(use_dex)(self._id, self.private_key, self.type_account)
             await swap_module.swap(
-                token,
+                from_token,
                 to_token,
-                min_amount,
-                max_amount,
-                decimal,
+                0,
+                0,
+                6,
                 slippage,
-                False,
+                True,
                 min_percent,
                 max_percent
             )
 
-            if _ != len(path):
+            if _ != quantity_swap:
                 await sleep(sleep_from, sleep_to)

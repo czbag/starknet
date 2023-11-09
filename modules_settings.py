@@ -455,22 +455,22 @@ async def swap_multiswap(_id, key, type_account):
 
     use_dex = ["jediswap", "myswap", "10kswap", "sithswap", "protoss", "avnu"]
 
-    min_swap = 1
-    max_swap = 3
+    use_tokens = ["USDC", "DAI", "USDT"]
+
+    min_swap = 3
+    max_swap = 8
 
     sleep_from = 150
     sleep_to = 500
 
-    slippage = 2
-
-    random_swap_token = True
+    slippage = 1
 
     min_percent = 10
-    max_percent = 60
+    max_percent = 40
 
     multi = Multiswap(_id, key, type_account)
     await multi.swap(
-        use_dex, sleep_from, sleep_to, min_swap, max_swap, slippage, random_swap_token, min_percent, max_percent
+        use_dex, use_tokens, sleep_from, sleep_to, min_swap, max_swap, slippage, min_percent, max_percent
     )
 
 
@@ -520,6 +520,7 @@ async def custom_routes(account_id, key, type_account):
         NFT/DOMAIN:
             – mint_starkstars
             – mint_starknet_id
+            – create_collection_pyramid
         ANOTHER:
             – deploy_argent
             – send_mail_dmail
