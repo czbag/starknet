@@ -15,13 +15,18 @@ class StarknetId(Starknet):
 
     @retry
     @check_gas("starknet")
-    async def mint(self):
+    async def mint(self, hard_mint: bool):
         logger.info(f"[{self._id}][{hex(self.address)}] Start mint Starknet ID")
 
-        mint_starknet_id_call = self.contract.functions["mint"].prepare(int(random.random() * 1e12))
+        amount_id = await self.contract.functions["balanceOf"].call(self.address)
 
-        transaction = await self.sign_transaction([mint_starknet_id_call])
+        if amount_id.balance == 0 or hard_mint:
+            mint_starknet_id_call = self.contract.functions["mint"].prepare(int(random.random() * 1e12))
 
-        transaction_response = await self.send_transaction(transaction)
+            transaction = await self.sign_transaction([mint_starknet_id_call])
 
-        await self.wait_until_tx_finished(transaction_response.transaction_hash)
+            transaction_response = await self.send_transaction(transaction)
+
+            await self.wait_until_tx_finished(transaction_response.transaction_hash)
+        else:
+            logger.info(f"[{self._id}][{hex(self.address)}] Starknet ID already minted")

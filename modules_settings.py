@@ -424,6 +424,19 @@ async def deploy_nft(_id, key, type_account):
     await stark_guardians.deploy_nft(sleep_from, sleep_to)
 
 
+async def mint_starknet_id(_id, key, type_account):
+    """
+    Mint Starknet ID
+    ______________________________________________________
+    hard_mint – If you already have a Starknet ID, you can mint again
+    """
+
+    hard_mint = True
+
+    starknet_id = StarknetId(_id, key, type_account)
+    await starknet_id.mint(hard_mint)
+
+
 async def make_transfer(_id, key, type_account, recipient):
     """
     Transfer ETH
@@ -524,6 +537,7 @@ async def custom_routes(account_id, key, type_account):
         ANOTHER:
             – deploy_argent
             – send_mail_dmail
+            – mint_gol
             – deploy_token
             – deploy_nft
             – swap_tokens
@@ -554,12 +568,6 @@ async def custom_routes(account_id, key, type_account):
 #########################################
 ########### NO NEED TO CHANGE ###########
 #########################################
-
-async def mint_starknet_id(_id, key, type_account):
-    starknet_id = StarknetId(_id, key, type_account)
-    await starknet_id.mint()
-
-
 async def send_mail_dmail(_id, key, type_account):
     dmail = Dmail(_id, key, type_account)
     await dmail.send_mail()
@@ -578,6 +586,11 @@ async def cancel_order_unframed(_id, key, type_account):
 async def cancel_order_flex(_id, key, type_account):
     flex = Flex(_id, key, type_account)
     await flex.cancel_order()
+
+
+async def mint_gol(_id, key, type_account):
+    gol = Gol(_id, key, type_account)
+    await gol.mint_token()
 
 
 async def deploy_token(_id, key, type_account):

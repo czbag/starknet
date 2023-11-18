@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Union
 
 import questionary
+from loguru import logger
 from questionary import Choice
 
 from config import ACCOUNTS, RECIPIENTS
@@ -50,14 +51,15 @@ def get_module():
             Choice("21) Mint NFT on Pyramid", create_collection_pyramid),
             Choice("22) Unframed", cancel_order_unframed),
             Choice("23) Flex", cancel_order_flex),
-            Choice("24) Deploy token", deploy_token),
-            Choice("25) Deploy and mint NFT", deploy_nft),
-            Choice("26) Transfer", make_transfer),
-            Choice("27) Swap tokens to ETH", swap_tokens),
-            Choice("28) Use Multiswap", swap_multiswap),
-            Choice("29) Use custom routes ", custom_routes),
-            Choice("30) Check transaction count", "tx_checker"),
-            Choice("31) Exit", "exit"),
+            Choice("24) Mint Gol token", mint_gol),
+            Choice("25) Deploy token", deploy_token),
+            Choice("26) Deploy and mint NFT", deploy_nft),
+            Choice("27) Transfer", make_transfer),
+            Choice("28) Swap tokens to ETH", swap_tokens),
+            Choice("29) Use Multiswap", swap_multiswap),
+            Choice("30) Use custom routes ", custom_routes),
+            Choice("31) Check transaction count", "tx_checker"),
+            Choice("32) Exit", "exit"),
         ],
         qmark="⚙️ ",
         pointer="✅ "
@@ -130,6 +132,8 @@ def main(module):
 
 if __name__ == '__main__':
     print("❤️ Subscribe to me – https://t.me/sybilwave\n")
+
+    logger.add("logging.log")
 
     module = get_module()
     if module == "tx_checker":

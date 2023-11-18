@@ -1,5 +1,5 @@
 import random
-from typing import List
+from typing import List, Union
 
 from loguru import logger
 from config import STARKNET_TOKENS
@@ -37,7 +37,7 @@ class SwapTokens(Starknet):
             tokens: List,
             sleep_from: int,
             sleep_to: int,
-            slippage: int,
+            slippage: Union[int, float],
             min_percent: int,
             max_percent: int,
     ):

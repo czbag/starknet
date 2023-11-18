@@ -17,6 +17,7 @@ from .pyramid import Pyramid
 from .unframed import Unframed
 from .flex import Flex
 from .starkguardians import StarkGuardians
+from .gol import Gol
 from .transfer import Transfer
 from .multiswap import Multiswap
 from .swap_tokens import SwapTokens
