@@ -41,19 +41,25 @@ python main.py
 
 7. Mint StarkStars NFT
 
-8. Dmail - email sender (onchain)
+8. Ming GOL2 Token
 
-9. Transfer ETH to any wallets
+9. Deploy token
 
-10. Multi-swap capability - makes the specified number of swaps in the specified dexes
+10. Deploy & mint NFT
 
-11. Custom routes - actions to be performed sequentially or randomly
+11. Dmail - email sender (onchain)
 
-12. Check gas before starting the module, if gas > specified, the software will wait for
+12. Transfer ETH to any wallets
 
-13. Logging via logger module
+13. Multi-swap capability - makes the specified number of swaps in the specified dexes
 
-14. Transaction count checker
+14. Custom routes - actions to be performed sequentially or randomly
+
+15. Check gas before starting the module, if gas > specified, the software will wait for
+
+16. Logging via logger module
+
+17. Transaction count checker
 
 ---
 <h2>⚙️ Настройка</h2>
