@@ -41,7 +41,7 @@ python main.py
 
 7. Mint StarkStars NFT
 
-8. Ming GOL2 Token
+8. Mint GOL2 Token
 
 9. Deploy token
 
