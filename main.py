@@ -94,10 +94,13 @@ def get_wallets(use_recipients: bool = False):
 
 
 async def run_module(module, account_id, key, recipient: Union[str, None] = None):
-    if recipient:
-        await module(account_id, key, TYPE_WALLET, recipient)
-    else:
-        await module(account_id, key, TYPE_WALLET)
+    try:
+        if recipient:
+            await module(account_id, key, TYPE_WALLET, recipient)
+        else:
+            await module(account_id, key, TYPE_WALLET)
+    except Exception as e:
+        logger.error(e)
 
     if REMOVE_WALLET:
         remove_wallet(key, recipient)
