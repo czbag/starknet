@@ -72,6 +72,15 @@ with open('data/abi/starkguardians/abi.json') as file:
 with open('data/abi/gol2/abi.json') as file:
     GOL2_ABI = json.load(file)
 
+with open('data/abi/starkverse/abi.json') as file:
+    STARKVERSE_ABI = json.load(file)
+
+with open('data/abi/almanac/abi.json') as file:
+    ALMANAC_ABI = json.load(file)
+
+with open('data/abi/ninth/abi.json') as file:
+    NINTH_ABI = json.load(file)
+
 SPACESHARD_API = "https://starkgate.spaceshard.io/v1/gas-cost/"
 
 BRAAVOS_PROXY_CLASS_HASH = 0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e
@@ -142,3 +151,9 @@ FLEX_CONTRACT = 0x04b1b3fdf34d00288a7956e6342fb366a1510a9387d321c87f3301d990ac19
 STARKGUARDIANS_CONTRACT = 0x041a78e741e5af2fec34b695679bc6891742439f7afb8484ecd7766661ad02bf
 
 GOL2_CONTRACT = 0x06a05844a03bb9e744479e3298f54705a35966ab04140d3d8dd797c1f6dc49d0
+
+STARKVERSE_CONTRACT = 0x060582df2cd4ad2c988b11fdede5c43f56a432e895df255ccd1af129160044b8
+
+ALMANAC_CONTRACT = 0x07d4dc2bf13ede97b9e458dc401d4ff6dd386a02049de879ebe637af8299f91d
+
+NINTH_CONTRACT = 0x07038b75cd6557f4c788971eacc37cf6554acad7146398d42bcc7da3a05b5218

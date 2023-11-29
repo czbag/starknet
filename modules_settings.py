@@ -533,11 +533,14 @@ async def custom_routes(account_id, key, type_account):
         NFT/DOMAIN:
             – mint_starkstars
             – mint_starknet_id
+            – mint_starkverse
             – create_collection_pyramid
         ANOTHER:
             – deploy_argent
             – send_mail_dmail
             – mint_gol
+            – approve_almanac
+            – approve_ninth
             – deploy_token
             – deploy_nft
             – swap_tokens
@@ -596,6 +599,21 @@ async def mint_gol(_id, key, type_account):
 async def deploy_token(_id, key, type_account):
     stark_guardians = StarkGuardians(_id, key, type_account)
     await stark_guardians.deploy_token()
+
+
+async def mint_starkverse(_id, key, type_account):
+    starkverse = Starkverse(_id, key, type_account)
+    await starkverse.mint()
+
+
+async def approve_almanac(_id, key, type_account):
+    almanac = Almanac(_id, key, type_account)
+    await almanac.approve_nft()
+
+
+async def approve_ninth(_id, key, type_account):
+    ninth = Ninth(_id, key, type_account)
+    await ninth.approve_token()
 
 
 async def deploy_argent(_id, key, type_account):
