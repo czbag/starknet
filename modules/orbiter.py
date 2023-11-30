@@ -1,3 +1,4 @@
+import aiohttp
 from loguru import logger
 from web3 import Web3
 
@@ -14,18 +15,49 @@ class Orbiter:
         self.recipient = recipient
         self.type_account = type_account
 
-        self.bridge_codes = {
-            "ethereum": 9001,
-            "arbitrum": 9002,
-            "starknet": 9004,
-            "polygon": 9006,
-            "optimism": 9007,
-            "zksync": 9014,
-            "bsc": 9015,
-            "nova": 9016,
-            "zkevm": 9017,
-            "base": 9021,
+        self.chain_ids = {
+            "ethereum": "1",
+            "arbitrum": "42161",
+            "optimism": "10",
+            "zksync": "324",
+            "nova": "42170",
+            "zkevm": "1101",
+            "scroll": "534352",
+            "base": "8453",
+            "linea": "59144",
+            "zora": "7777777",
+            "starknet": "SN_MAIN",
         }
+
+    @retry
+    async def get_bridge_amount(self, from_chain: str, to_chain: str, address: str, amount: float):
+        url = "https://openapi.orbiter.finance/explore/v3/yj6toqvwh1177e1sexfy0u1pxx5j8o47"
+
+        data = {
+            "id": 1,
+            "jsonrpc": "2.0",
+            "method": "orbiter_calculatedAmount",
+            "params": [f"{self.chain_ids[from_chain]}-{self.chain_ids[to_chain]}:ETH-ETH", float(amount)]
+        }
+
+        async with aiohttp.ClientSession() as session:
+            response = await session.post(
+                url=url,
+                headers={"Content-Type": "application/json"},
+                json=data,
+            )
+
+            response_data = await response.json()
+
+            if response_data.get("result").get("error", None) is None:
+                return int(response_data.get("result").get("_sendValue"))
+
+            else:
+                error_data = response_data.get("result").get("error")
+
+                logger.error(f"[{self._id}][{address}] Orbiter error | {error_data}")
+
+                return False
 
     @check_gas("ethereum")
     async def bridge_to_starknet(
@@ -51,17 +83,24 @@ class Orbiter:
 
         logger.info(f"[{self._id}][{eth_account.address}] Orbiter bridge to Starknet | {amount} ETH")
 
-        if amount < 0.005 or amount > 5:
-            logger.error(f"Limit range amount for bridge 0.005 - 5 ETH | {amount} ETH")
-        elif amount_wei + self.bridge_codes["starknet"] >= balance:
-            logger.error(f"Limit range amount for bridge 0.005 - 5 ETH | {amount} ETH")
+        if ORBITER_CONTRACTS["deposit"] == "":
+            logger.error(f"[{self._id}][{eth_account.address}] Don't have orbiter contract")
+            return
+
+        bridge_amount = await self.get_bridge_amount(from_chain, "starknet", eth_account.address, amount)
+
+        if bridge_amount is False:
+            return
+
+        if bridge_amount > balance:
+            logger.error(f"[{self._id}][{eth_account.address}] Insufficient funds!")
         else:
             contract = eth_account.get_contract(ORBITER_CONTRACTS["bridge"], ORBITER_DEPOSIT_ABI)
 
             tx = {
                 "chainId": await eth_account.w3.eth.chain_id,
                 "from": eth_account.address,
-                "value": amount_wei + self.bridge_codes["starknet"],
+                "value": bridge_amount,
                 "nonce": await eth_account.w3.eth.get_transaction_count(eth_account.address)
             }
 
@@ -105,6 +144,8 @@ class Orbiter:
             f"[{self._id}][{hex(starknet_account.address)}] Orbiter bridge to {to_chain.title()} | {amount} ETH"
         )
 
+        bridge_amount = await self.get_bridge_amount("starknet", to_chain, hex(starknet_account.address), amount)
+
         bridge_contract = starknet_account.get_contract(ORBITER_CONTRACTS["withdraw"], ORBITER_WITHDRAW_ABI)
         approve_contract = starknet_account.get_contract(STARKNET_TOKENS["ETH"])
 
@@ -113,7 +154,7 @@ class Orbiter:
         transfer_call = bridge_contract.functions["transferERC20"].prepare(
             STARKNET_TOKENS["ETH"],
             0x64a24243f2aabae8d2148fa878276e6e6e452e3941b417f3c33b1649ea83e11,
-            amount_wei + self.bridge_codes[to_chain],
+            bridge_amount,
             int(self.recipient, 16)
         )
 
