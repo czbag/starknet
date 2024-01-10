@@ -1,7 +1,7 @@
 import time
 import random
 
-from starknet_py.net.gateway_client import GatewayClient
+from starknet_py.net.full_node_client import FullNodeClient
 
 from web3 import Web3
 from web3.eth import AsyncEth
@@ -26,7 +26,7 @@ async def get_gas():
 
 
 async def wait_gas_ethereum():
-    logger.info("Get GWEI")
+    logger.info("Get GWEI ETH")
     while True:
         gas = await get_gas()
 
@@ -39,13 +39,13 @@ async def wait_gas_ethereum():
 
 
 async def wait_gas_starknet():
-    logger.info("Get GWEI")
+    logger.info("Get GWEI STARK")
 
-    client = GatewayClient("mainnet")
+    client = FullNodeClient(node_url=random.choice(RPC["starknet"]["rpc"]))
 
     while True:
         block_data = await client.get_block("latest")
-        gas = Web3.from_wei(block_data.gas_price, "gwei")
+        gas = Web3.from_wei(block_data.l1_gas_price.price_in_wei, "gwei")
 
         if gas > MAX_GWEI:
             logger.info(f'Current GWEI: {gas} > {MAX_GWEI}')
