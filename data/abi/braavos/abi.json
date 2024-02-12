@@ -1,0 +1,17 @@
+[
+  {
+    "name": "upgrade_regenesis",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "new_implementation",
+        "type": "felt"
+      },
+      {
+        "name": "regenesis_account_id",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  }
+]

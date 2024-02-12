@@ -31,7 +31,7 @@ from config import (
     RPC,
     ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
     BRIDGE_CONTRACTS,
-    ARGENT_ABI
+    ARGENT_ABI, BRAAVOS_IMPLEMENTATION_CLASS_HASH_NEW, BRAAVOS_ABI, BRAAVOS_REGENESIS_ACCOUNT_ID
 )
 from utils.gas_checker import check_gas
 from utils.helpers import retry
@@ -73,8 +73,6 @@ class Starknet:
                 constructor_calldata=[ARGENTX_IMPLEMENTATION_CLASS_HASH, selector, len(calldata), *calldata],
                 salt=self.key_pair.public_key,
             )
-
-            return address
         else:
             address = compute_address(
                 class_hash=ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
@@ -82,7 +80,7 @@ class Starknet:
                 salt=self.key_pair.public_key,
             )
 
-            return address
+        return address
 
     def _get_braavos_account(self) -> int:
         selector = get_selector_from_name("initializer")
@@ -262,3 +260,21 @@ class Starknet:
             await self.wait_until_tx_finished(transaction_response.transaction_hash)
         else:
             logger.info(f"[{self._id}][{hex(self.address)}] No upgrade required")
+
+    @retry
+    @check_gas("starknet")
+    async def upgrade_braavos(self):
+        contract = self.get_contract(self.address, BRAAVOS_ABI)
+
+        logger.info(f"[{self._id}][{hex(self.address)}] Upgrade account to cairo 1")
+
+        upgrade_call = contract.functions["upgrade_regenesis"].prepare(
+            BRAAVOS_IMPLEMENTATION_CLASS_HASH_NEW,
+            BRAAVOS_REGENESIS_ACCOUNT_ID
+        )
+
+        transaction = await self.sign_transaction([upgrade_call])
+
+        transaction_response = await self.send_transaction(transaction)
+
+        await self.wait_until_tx_finished(transaction_response.transaction_hash)

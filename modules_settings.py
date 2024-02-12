@@ -626,5 +626,10 @@ async def upgrade_argent(_id, key, type_account):
     await starknet.upgrade_argent()
 
 
+async def upgrade_braavos(_id, key, type_account):
+    starknet = Starknet(_id, key, type_account)
+    await starknet.upgrade_braavos()
+
+
 def get_tx_count(type_account):
     asyncio.run(check_tx(type_account))
