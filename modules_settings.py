@@ -626,6 +626,11 @@ async def upgrade_argent(_id, key, type_account):
     await starknet.upgrade_argent()
 
 
+async def enable_strk_argent(_id, key, type_account):
+    starknet = Starknet(_id, key, type_account)
+    await starknet.argentx_enable_strk()
+
+
 async def upgrade_braavos(_id, key, type_account):
     starknet = Starknet(_id, key, type_account)
     await starknet.upgrade_braavos()
