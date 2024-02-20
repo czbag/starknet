@@ -30,6 +30,7 @@ from config import (
     WITHDRAW_ABI,
     RPC,
     ARGENTX_IMPLEMENTATION_CLASS_HASH_NEW,
+    ARGENTX_IMPLEMENTATION_CLASS_HASH_STRK,
     BRIDGE_CONTRACTS,
     ARGENT_ABI, BRAAVOS_IMPLEMENTATION_CLASS_HASH_NEW, BRAAVOS_ABI, BRAAVOS_REGENESIS_ACCOUNT_ID
 )
@@ -250,6 +251,30 @@ class Starknet:
 
         if version == "0.2.3":
             logger.info(f"[{self._id}][{hex(self.address)}] Upgrade account to cairo 1")
+
+            upgrade_call = contract.functions["upgrade"].prepare(class_hash, [0])
+
+            transaction = await self.sign_transaction([upgrade_call])
+
+            transaction_response = await self.send_transaction(transaction)
+
+            await self.wait_until_tx_finished(transaction_response.transaction_hash)
+        else:
+            logger.info(f"[{self._id}][{hex(self.address)}] No upgrade required")
+
+    @retry
+    @check_gas("starknet")
+    async def argentx_enable_strk(self):
+        class_hash = ARGENTX_IMPLEMENTATION_CLASS_HASH_STRK
+
+        contract = self.get_contract(self.address, ARGENT_ABI)
+
+        account_version = await contract.functions["getVersion"].call()
+
+        version = bytes.fromhex(hex(account_version.as_tuple()[0])[2:]).decode("utf8")
+
+        if version == "0.3.0":
+            logger.info(f"[{self._id}][{hex(self.address)}] Upgrade account to v0.3.1 (enabling STRK fee)")
 
             upgrade_call = contract.functions["upgrade"].prepare(class_hash, [0])
 
