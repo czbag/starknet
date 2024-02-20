@@ -439,8 +439,10 @@ async def mint_starknet_id(_id, key, type_account):
 
 async def make_transfer(_id, key, type_account, recipient):
     """
-    Transfer ETH
+    Transfer ETH/STRK
     """
+
+    token = "ETH"
 
     min_amount = 0.0001
     max_amount = 0.0002
@@ -448,11 +450,11 @@ async def make_transfer(_id, key, type_account, recipient):
 
     all_amount = True
 
-    min_percent = 5
-    max_percent = 10
+    min_percent = 100
+    max_percent = 100
 
     transfer = Transfer(_id, key, type_account, recipient)
-    await transfer.transfer_eth(min_amount, max_amount, decimal, all_amount, min_percent, max_percent)
+    await transfer.transfer_eth(token, min_amount, max_amount, decimal, all_amount, min_percent, max_percent)
 
 
 async def swap_multiswap(_id, key, type_account):
